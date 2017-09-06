@@ -1,0 +1,62 @@
+
+soap1.1:
+
+请求：
+
+POST /ws_itcast_weather_h_jwsweb/weather HTTP/1.1
+Content-type: text/xml;charset="utf-8"
+Soapaction:
+"http://server.weather.itcast.cn/WeatherServer/queryWeatherByCityRequest"
+Accept: text/xml, multipart/related, text/html, image/gif, image/jpeg,
+*; q=.2, */*; q=.2
+User-Agent: JAX-WS RI 2.1.6 in JDK 6
+Host:
+192.168.1.49:9527
+Connection: keep-alive
+Content-Length: 229
+
+<?xml version="1.0" ?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<ns2:queryWeatherByCity xmlns:ns2="http://server.weather.itcast.cn/">
+			<arg0>閮戝窞</arg0>
+		</ns2:queryWeatherByCity>
+	</S:Body>
+</S:Envelope>
+
+
+响应：
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type:
+text/xml;charset=utf-8
+Transfer-Encoding: chunked
+Date: Mon, 03 Mar 2014
+01:16:13 GMT
+
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<ns2:queryWeatherByCityResponse
+			xmlns:ns2="http://server.weather.itcast.cn/">
+			<return>
+				<cityName>閮戝窞</cityName>
+				<date>
+					14骞�3鏈�3鏃�/date>
+					<temperature>
+						鏈�珮娓╁害11搴︼紝鏈�綆娓╁害1搴�/temperature>
+						<weather>鏅�/weather>
+			</return>
+			<return>
+				<cityName>閮戝窞</cityName>
+				<date>
+					14骞�3鏈�4鏃�/date>
+					<temperature>
+						鏈�珮娓╁害10搴︼紝鏈�綆娓╁害-1搴�/temperature>
+						<weather>闃�/weather>
+			</return>
+		</ns2:queryWeatherByCityResponse>
+	</S:Body>
+</S:Envelope>
+

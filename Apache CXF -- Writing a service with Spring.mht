@@ -1,0 +1,3889 @@
+From: =?gb2312?B?08kgV2luZG93cyBJbnRlcm5ldCBFeHBsb3JlciA5ILGjtOY=?=
+Subject: Apache CXF -- Writing a service with Spring
+Date: Wed, 5 Mar 2014 18:29:43 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0018_01CF38A0.E0B00AB0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.1.7600.16807
+
+这是 MIME 格式的多方邮件。
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/docs/writing-a-service-with-spring.html
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" =
+"http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" =
+"http://www.w3.org/TR/html4/loose.dtd"><!--=0A=
+=0A=
+    Licensed to the Apache Software Foundation (ASF) under one or more=0A=
+    contributor license agreements.  See the NOTICE file distributed with=0A=
+    this work for additional information regarding copyright ownership.=0A=
+    The ASF licenses this file to You under the Apache License, Version =
+2.0=0A=
+    (the "License"); you may not use this file except in compliance with=0A=
+    the License.  You may obtain a copy of the License at=0A=
+=0A=
+       http://www.apache.org/licenses/LICENSE-2.0=0A=
+=0A=
+    Unless required by applicable law or agreed to in writing, software=0A=
+    distributed under the License is distributed on an "AS IS" BASIS,=0A=
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or =
+implied.=0A=
+    See the License for the specific language governing permissions and=0A=
+    limitations under the License.=0A=
+--><HTML><HEAD><LINK=20
+rel=3D"stylesheet" type=3D"text/css"=20
+href=3D"http://cxf.apache.org/resources/site.css">
+<SCRIPT src=3D"http://cxf.apache.org/resources/space.js"></SCRIPT>
+
+<META content=3D"text/html;charset=3DUTF-8" http-equiv=3D"Content-type">
+<META name=3D"keywords" content=3D"business integration, EAI, SOA, =
+Service Oriented Architecture, web services, SOAP, JBI, JMS, WSDL, XML, =
+EDI, Electronic Data Interchange, standards support, integration =
+standards, application integration, middleware, software, solutions, =
+services, CXF, open source">
+<META name=3D"description" content=3D"Apache CXF, Services Framework - =
+Writing a service with Spring"><LINK=20
+rel=3D"stylesheet" type=3D"text/css" =
+href=3D"http://cxf.apache.org/resources/highlighter/styles/shCoreCXF.css"=
+>
+<LINK rel=3D"stylesheet" type=3D"text/css" =
+href=3D"http://cxf.apache.org/resources/highlighter/styles/shThemeCXF.css=
+">
+<SCRIPT =
+src=3D"http://cxf.apache.org/resources/highlighter/scripts/shCore.js"></S=
+CRIPT>
+
+<SCRIPT =
+src=3D"http://cxf.apache.org/resources/highlighter/scripts/shBrushJava.js=
+"></SCRIPT>
+
+<SCRIPT =
+src=3D"http://cxf.apache.org/resources/highlighter/scripts/shBrushXml.js"=
+></SCRIPT>
+
+<SCRIPT =
+src=3D"http://cxf.apache.org/resources/highlighter/scripts/shBrushPlain.j=
+s"></SCRIPT>
+
+<SCRIPT>=0A=
+  SyntaxHighlighter.defaults['toolbar'] =3D false;=0A=
+  SyntaxHighlighter.all();=0A=
+</SCRIPT>
+<TITLE>Apache CXF -- Writing a service with Spring    </TITLE>
+<META name=3D"GENERATOR" content=3D"MSHTML 9.00.8112.16533"></HEAD>
+<BODY onload=3D"init()">
+<TABLE cellSpacing=3D"0" cellPadding=3D"0" width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD id=3D"cell-0-0" colSpan=3D"2">&nbsp;</TD>
+    <TD id=3D"cell-0-1">&nbsp;</TD>
+    <TD id=3D"cell-0-2" colSpan=3D"2">&nbsp;</TD></TR>
+  <TR>
+    <TD id=3D"cell-1-0">&nbsp;</TD>
+    <TD id=3D"cell-1-1">&nbsp;</TD>
+    <TD id=3D"cell-1-2"><!-- Banner -->
+      <DIV id=3D"banner" class=3D"banner">
+      <DIV>
+      <TABLE border=3D"0" cellSpacing=3D"0" cellPadding=3D"0" =
+width=3D"100%">
+        <TBODY>
+        <TR>
+          <TD colSpan=3D"1" noWrap=3D"" align=3D"left"><A =
+title=3D"Apache CXF" href=3D"http://cxf.apache.org/"=20
+            shape=3D"rect"><SPAN style=3D"color: white; font-size: 170%; =
+font-weight: bold;">Apache=20
+            CXF</SPAN></A></TD>
+          <TD colSpan=3D"1" noWrap=3D"" align=3D"right"><A title=3D"The =
+Apache Sofware Foundation"=20
+            href=3D"http://www.apache.org/" shape=3D"rect"><IMG =
+border=3D"0" alt=3D"ASF Logo"=20
+            src=3D"http://cxf.apache.org/images/asf-logo.png"></A>
+      </TD></TR></TBODY></TABLE></DIV></DIV><!-- Banner -->
+      <DIV id=3D"top-menu">
+      <TABLE border=3D"0" cellSpacing=3D"0" cellPadding=3D"1" =
+width=3D"100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <DIV align=3D"left"><!-- Breadcrumbs --><A =
+href=3D"http://cxf.apache.org/docs/index.html">Index</A>&nbsp;&gt;&nbsp;<=
+A=20
+            =
+href=3D"http://cxf.apache.org/docs/how-tos.html">How-Tos</A>&nbsp;&gt;&nb=
+sp;<A=20
+            =
+href=3D"http://cxf.apache.org/docs/writing-a-service-with-spring.html">Wr=
+iting=20
+            a service with Spring</A><!-- Breadcrumbs --></DIV></TD>
+          <TD>
+            <DIV align=3D"right"><!-- Quicklinks -->
+            <DIV id=3D"quicklinks">
+            <P><A href=3D"http://cxf.apache.org/download.html"=20
+            shape=3D"rect">Download</A> | <A =
+href=3D"http://cxf.apache.org/docs/index.html"=20
+            shape=3D"rect">Documentation</A></P></DIV><!-- Quicklinks =
+--></DIV></TD></TR></TBODY></TABLE></DIV></TD>
+    <TD id=3D"cell-1-3">&nbsp;</TD>
+    <TD id=3D"cell-1-4">&nbsp;</TD></TR>
+  <TR>
+    <TD id=3D"cell-2-0" colSpan=3D"2">&nbsp;</TD>
+    <TD id=3D"cell-2-1">
+      <TABLE>
+        <TBODY>
+        <TR vAlign=3D"top">
+          <TD height=3D"100%">
+            <DIV id=3D"wrapper-menu-page-right">
+            <DIV id=3D"wrapper-menu-page-top">
+            <DIV id=3D"wrapper-menu-page-bottom">
+            <DIV id=3D"menu-page"><!-- NavigationBar -->
+            <DIV id=3D"navigation">
+            <UL class=3D"alternate">
+              <LI><A href=3D"http://cxf.apache.org/docs/overview.html" =
+shape=3D"rect">Overview</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/docs/how-tos.html"=20
+              shape=3D"rect">How-Tos</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/docs/frontends.html" =
+shape=3D"rect">Frontends</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/databindings.html" =
+shape=3D"rect">DataBindings</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/docs/transports.html" =
+shape=3D"rect">Transports</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/configuration.html" =
+shape=3D"rect">Configuration</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/debugging-and-logging.html"=20
+              shape=3D"rect">Debugging and Logging</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/docs/tools.html"=20
+              shape=3D"rect">Tools</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/restful-services.html"=20
+              shape=3D"rect">RESTful Services</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/wsdl-bindings.html" =
+shape=3D"rect">WSDL=20
+              Bindings</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/service-routing.html"=20
+              shape=3D"rect">Service Routing</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/dynamic-languages.html"=20
+              shape=3D"rect">Dynamic Languages</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/docs/ws-support.html" =
+shape=3D"rect">WS-*=20
+              Support</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/advanced-integration.html"=20
+              shape=3D"rect">Advanced Integration</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/docs/deployment.html" =
+shape=3D"rect">Deployment</A></LI>
+              <LI><A =
+href=3D"http://cxf.apache.org/docs/schemas-and-namespaces.html"=20
+              shape=3D"rect">Use of Schemas and Namespaces</A></LI></UL>
+            <HR>
+
+            <UL class=3D"alternate">
+              <LI>
+              <P>Search</P></LI></UL>
+            <FORM id=3D"cse-search-box" =
+encType=3D"application/x-www-form-urlencoded"=20
+            method=3D"get" action=3D"http://www.google.com/cse">
+            <DIV><INPUT name=3D"cx" =
+value=3D"002890367768291051730:o99qiwa09y4"=20
+            type=3D"hidden"><INPUT name=3D"ie" value=3D"UTF-8" =
+type=3D"hidden"><INPUT=20
+            name=3D"q" size=3D"21" type=3D"text"><INPUT name=3D"sa" =
+value=3D"Search" type=3D"submit"></DIV>
+            </FORM>
+<SCRIPT type=3D"text/javascript" =
+src=3D"http://www.google.com/cse/brand?form=3Dcse-search-box&amp;lang=3De=
+n"></SCRIPT>
+
+            <HR>
+
+            <UL class=3D"alternate">
+              <LI><A href=3D"http://cxf.apache.org/javadoc/latest/"=20
+              shape=3D"rect">API (Javadoc)</A></LI>
+              <LI><A href=3D"http://cxf.apache.org/" shape=3D"rect">CXF=20
+              Website</A></LI></UL></DIV><!-- NavigationBar =
+--></DIV></DIV></DIV></DIV></TD>
+          <TD height=3D"100%"><!-- Content -->
+            <DIV class=3D"wiki-content">
+            <DIV id=3D"ConfluenceContent">
+            <P>This example will lead you through creating your first =
+service=20
+            with <A class=3D"external-link" =
+href=3D"http://springframework.org/"=20
+            shape=3D"rect" rel=3D"nofollow">Spring</A>. You'll learn how =
+to:</P>
+            <UL>
+              <LI>Set up your build for CXF</LI>
+              <LI>Writing a simple JAX-WS service</LI>
+              <LI>Set up the HTTP transport</LI></UL>
+            <P>This example corresponds to the <A =
+class=3D"external-link" =
+href=3D"http://svn.apache.org/viewvc/cxf/trunk/distribution/src/main/rele=
+ase/samples/java_first_spring_support/"=20
+            shape=3D"rect">java_first_spring_support</A> example in the =
+CXF=20
+            distribution. </P>
+            <H1 =
+id=3D"WritingaservicewithSpring-Settingupyourbuild">Setting up=20
+            your build</H1>
+            <P>The use of <A class=3D"external-link" =
+href=3D"http://maven.apache.org/"=20
+            shape=3D"rect">Apache Maven</A> is recommended for your web =
+service=20
+            projects, as it will automatically bring in all necessary=20
+            dependencies for your web service project.  See the Maven <A =
+class=3D"external-link"=20
+            =
+href=3D"http://svn.apache.org/viewvc/cxf/trunk/distribution/src/main/rele=
+ase/samples/java_first_spring_support/pom.xml?view=3Dco"=20
+            shape=3D"rect">pom.xml</A> for this sample for the =
+configuration=20
+            needed.  All samples provided by CXF use Apache Maven, =
+except for=20
+            the <A class=3D"external-link" =
+href=3D"http://svn.apache.org/viewvc/cxf/trunk/distribution/src/main/rele=
+ase/samples/antbuild/"=20
+            shape=3D"rect">antbuild sample</A> which shows how you can =
+build CXF=20
+            projects with Apache Ant instead.</P>
+            <P>The mvn dependency:list and mvn dependency:tree commands =
+from the=20
+            <A class=3D"external-link" =
+href=3D"http://maven.apache.org/plugins/maven-dependency-plugin/"=20
+            shape=3D"rect">Maven Dependency Plugin</A> will show all =
+dependencies=20
+            used by your project.</P>
+            <H1 =
+id=3D"WritingaservicewithSpring-WritingyourService">Writing your=20
+            Service</H1>
+            <P>First we'll write our service interface. It will have one =
+
+            operation called "sayHello" which says "Hello" to whoever =
+submits=20
+            their name.</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: java; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+package demo.spring.service;=0A=
+=0A=
+import javax.jws.WebService;=0A=
+=0A=
+@WebService=0A=
+public interface HelloWorld {=0A=
+    String sayHi(String text);=0A=
+}=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>Our implementation will then look like this:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: java; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+package demo.spring.service;=0A=
+=0A=
+import javax.jws.WebService;=0A=
+=0A=
+@WebService(endpointInterface =3D =
+&quot;demo.spring.service.HelloWorld&quot;)=0A=
+public class HelloWorldImpl implements HelloWorld {=0A=
+=0A=
+    public String sayHi(String text) {=0A=
+        System.out.println(&quot;sayHi called&quot;);=0A=
+        return &quot;Hello &quot; + text;=0A=
+    }=0A=
+}=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>The <CODE>@WebService</CODE> annotation on the =
+implementation=20
+            class lets CXF know which interface to use when creating =
+WSDL. In=20
+            this case its simply our HelloWorld interface.</P>
+            <H1=20
+            =
+id=3D"WritingaservicewithSpring-Declaringyourserverbeans">Declaring=20
+            your server beans</H1>
+            <P>CXF contains support for "nice XML" within Spring 2.0. =
+For the=20
+            JAX-WS side of things, we have a &lt;jaxws:endpoint&gt; bean =
+which=20
+            sets up a server side endpoint.</P>
+            <P>Lets create a "cxf-servlet.xml" file in our WEB-INF =
+directory=20
+            which declares an endpoint bean:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: java; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+&lt;beans =
+xmlns=3D&quot;http://www.springframework.org/schema/beans&quot; =
+xmlns:xsi=3D&quot;http://www.w3.org/2001/XMLSchema-instance&quot; =
+xmlns:jaxws=3D&quot;http://cxf.apache.org/jaxws&quot; =
+xsi:schemaLocation=3D&quot; http://www.springframework.org/schema/beans =
+http://www.springframework.org/schema/beans/spring-beans.xsd =
+http://cxf.apache.org/jaxws =
+http://cxf.apache.org/schemas/jaxws.xsd&quot;&gt;=0A=
+    &lt;import resource=3D&quot;classpath:META-INF/cxf/cxf.xml&quot;/&gt;=0A=
+    &lt;import =
+resource=3D&quot;classpath:META-INF/cxf/cxf-servlet.xml&quot;/&gt;=0A=
+    &lt;jaxws:endpoint id=3D&quot;helloWorld&quot; =
+implementor=3D&quot;demo.spring.service.HelloWorldImpl&quot; =
+address=3D&quot;/HelloWorld&quot;/&gt;=0A=
+&lt;/beans&gt;=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>If you want to reference a spring managed-bean, you can =
+write=20
+            like this:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: xml; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+&lt;bean id=3D&quot;hello&quot; =
+class=3D&quot;demo.spring.service.HelloWorldImpl&quot; /&gt;=0A=
+=0A=
+&lt;jaxws:endpoint id=3D&quot;helloWorld&quot; =
+implementor=3D&quot;#hello&quot; address=3D&quot;/HelloWorld&quot; /&gt;=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>The bean uses the following properties:</P>
+            <UL>
+              <LI><CODE>id</CODE> specifies the id of the bean in the =
+Spring=20
+              context.</LI>
+              <LI><CODE>implementor</CODE> specifies the implementation=20
+              class.</LI>
+              <LI><CODE>address</CODE> specifies the location the =
+service will=20
+              be hosted. This should just be a related path. This is =
+because CXF=20
+              can't know the war name and the servlet container's =
+listening=20
+              port, CXF will update the endpoint address with the =
+request url at=20
+              the runtime.</LI></UL>
+            <P>To provide a bean name instead of a classname as an =
+implementor,=20
+            simply supply the bean-name prepended with "#", e.g.=20
+            implementor=3D"#myBean".</P>
+            <P>You can also do more sophisticated things with the=20
+            <CODE>&lt;jaxws:endpoint&gt;</CODE> element like add nested =
+tags to=20
+            attach JAX-WS Handlers or CXF Interceptors to the service.  =
+For more=20
+            on this see <A =
+href=3D"http://cxf.apache.org/docs/jax-ws-configuration.html"=20
+            shape=3D"rect">JAX-WS Configuration</A>.</P>
+            <H1 =
+id=3D"WritingaservicewithSpring-SettinguptheServlet">Setting up=20
+            the Servlet</H1>
+            <P>Since we're relying on the default "cxf-servlet.xml" file =
+the <A=20
+            class=3D"external-link" =
+href=3D"http://svn.apache.org/viewvc/cxf/trunk/distribution/src/main/rele=
+ase/etc/web.xml?revision=3DHEAD"=20
+            shape=3D"rect">default web.xml</A> referenced by many =
+samples can be=20
+            used.</P>
+            <P>Alternatively, for arbitrarily named configuration files =
+such as=20
+            beans.xml, application-context.xml, etc. we can add the =
+following=20
+            elements:</P>
+            <OL>
+              <LI>the Spring <CODE>ContextLoaderLister</CODE>. This =
+starts=20
+              Spring and explicitly loads the configuration file. We can =
+specify=20
+              where our file is via a <CODE>context-param</CODE>=20
+element.</LI></OL>
+            <P>An example:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: java; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+&lt;web-app ...&gt;=0A=
+...=0A=
+   &lt;context-param&gt;=0A=
+      &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;=0A=
+      &lt;param-value&gt;WEB-INF/beans.xml&lt;/param-value&gt;=0A=
+   &lt;/context-param&gt;=0A=
+=0A=
+   &lt;listener&gt;=0A=
+      &lt;listener-class&gt;=0A=
+         org.springframework.web.context.ContextLoaderListener=0A=
+      &lt;/listener-class&gt;=0A=
+   &lt;/listener&gt;=0A=
+&lt;/web-app&gt;=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>It is important to note that the address that you chose =
+for your=20
+            endpoint bean must be one your servlet listens on. For =
+instance, if=20
+            my Servlet was register for "/some-services/*" but my =
+address was=20
+            "/more-services/HelloWorld", there is no way CXF could =
+receive a=20
+            request. </P>
+            <H1 =
+id=3D"WritingaservicewithSpring-CreateaClient(EasyWay)">Create a=20
+            Client (Easy Way)</H1>
+            <P>Just like the <CODE>&lt;jaxws:endpoint&gt;</CODE> used on =
+the=20
+            server side, there is a <CODE>&lt;jaxws:client&gt;</CODE> =
+that can=20
+            be used on the client side.  You'll give it a bean name, the =
+service=20
+            interface, and the service URL, and it will create a bean =
+with the=20
+            specified name, implementing the service interface, and =
+invoking the=20
+            remote SOAP service under the covers:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: xml; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+&lt;?xml version=3D&quot;1.0&quot; encoding=3D&quot;UTF-8&quot;?&gt;=0A=
+&lt;beans xmlns=3D&quot;http://www.springframework.org/schema/beans&quot;=0A=
+       xmlns:jaxws=3D&quot;http://cxf.apache.org/jaxws&quot;=0A=
+       xmlns:xsi=3D&quot;http://www.w3.org/2001/XMLSchema-instance&quot;=0A=
+       xsi:schemaLocation=3D&quot;=0A=
+http://www.springframework.org/schema/beans =
+http://www.springframework.org/schema/beans/spring-beans.xsd=0A=
+http://cxf.apache.org/jaxws =
+http://cxf.apache.org/schemas/jaxws.xsd&quot;&gt;=0A=
+=0A=
+    &lt;jaxws:client id=3D&quot;helloClient&quot;=0A=
+                  serviceClass=3D&quot;demo.spring.HelloWorld&quot;=0A=
+                  address=3D&quot;http://localhost:9002/HelloWorld&quot; =
+/&gt;=0A=
+&lt;/beans&gt;]]></SCRIPT>
+            </DIV></DIV>
+            <P>You can now inject that "helloClient" bean into any other =
+Spring=20
+            bean, or look it up from the Spring application context =
+manually=20
+            with code like this:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: java; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+ApplicationContext context =3D ...; // your Spring ApplicationContext=0A=
+HelloWorld client =3D (HelloWorld) =
+context.getBean(&quot;helloClient&quot;);=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>You can also do more sophisticated things with the=20
+            <CODE>&lt;jaxws:client&gt;</CODE> element like add nested =
+tags to=20
+            attach JAX-WS Handlers or CXF Interceptors to the client.  =
+For more=20
+            on this see <A =
+href=3D"http://cxf.apache.org/docs/jax-ws-configuration.html"=20
+            shape=3D"rect">JAX-WS Configuration</A>.</P>
+            <H1=20
+            =
+id=3D"WritingaservicewithSpring-CreateaClient(MoreManualWay)">Create a=20
+            Client (More Manual Way)</H1>
+            <P>CXF includes a JaxWsProxyFactory bean which create a =
+client for=20
+            you from your service interface. You simply need to tell it =
+what=20
+            your service class is (the HelloWorld interface in this =
+case) and=20
+            the URL of your service. You can then create a client bean =
+via the=20
+            JaxWsProxyFactory bean by calling it's create() method.</P>
+            <P>Here's an example:</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: xml; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[=0A=
+&lt;beans =
+xmlns=3D&quot;http://www.springframework.org/schema/beans&quot; =
+xmlns:xsi=3D&quot;http://www.w3.org/2001/XMLSchema-instance&quot; =
+xmlns:jaxws=3D&quot;http://cxf.apache.org/jaxws&quot; =
+xsi:schemaLocation=3D&quot; http://www.springframework.org/schema/beans =
+http://www.springframework.org/schema/beans/spring-beans.xsd =
+http://cxf.apache.org/jaxws =
+http://cxf.apache.org/schema/jaxws.xsd&quot;&gt;=0A=
+    &lt;bean id=3D&quot;client&quot; =
+class=3D&quot;demo.spring.service.HelloWorld&quot; =
+factory-bean=3D&quot;clientFactory&quot; =
+factory-method=3D&quot;create&quot;/&gt;=0A=
+    &lt;bean id=3D&quot;clientFactory&quot; =
+class=3D&quot;org.apache.cxf.jaxws.JaxWsProxyFactoryBean&quot;&gt;=0A=
+        &lt;property name=3D&quot;serviceClass&quot; =
+value=3D&quot;demo.spring.service.HelloWorld&quot;/&gt;=0A=
+        &lt;property name=3D&quot;address&quot; =
+value=3D&quot;http://localhost:9002/services/HelloWorld&quot;/&gt;=0A=
+    &lt;/bean&gt;=0A=
+&lt;/beans&gt;=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>If you were going to access your client you could now =
+simply pull=20
+            it out of the Spring context (or better yet, inject it into =
+your=20
+            application using Spring!):</P>
+            <DIV style=3D"border-width: 1px;" class=3D"code panel pdl">
+            <DIV class=3D"codeContent panelContent pdl">
+<SCRIPT class=3D"theme: Default; brush: java; gutter: false" =
+type=3D"syntaxhighlighter"><![CDATA[ =0A=
+ApplicationContext context =3D ...; // your Spring ApplicationContext=0A=
+HelloWorld client =3D (HelloWorld) context.getBean(&quot;client&quot;);=0A=
+]]></SCRIPT>
+            </DIV></DIV>
+            <P>client code at <A class=3D"external-link" =
+href=3D"http://svn.apache.org/repos/asf/cxf/trunk/distribution/src/main/r=
+elease/samples/java_first_spring_support/src/main/java/demo/spring/client=
+/Client.java"=20
+            =
+shape=3D"rect">http://svn.apache.org/repos/asf/cxf/trunk/distribution/src=
+/main/release/samples/java_first_spring_support/src/main/java/demo/spring=
+/client/Client.java</A></P>
+            <DIV class=3D"aui-message warning shadowed =
+information-macro"><SPAN=20
+            class=3D"aui-icon icon-warning">Icon</SPAN>
+            <DIV class=3D"message-content">
+            <P>Some usage scenarios will require more extensive =
+configuration=20
+            (and this is not the case with the =
+<CODE>&lt;jaxws:client&gt;</CODE>=20
+            syntax described above).  For more information, see <A =
+href=3D"http://cxf.apache.org/docs/jax-ws-configuration.html"=20
+            shape=3D"rect">JAX-WS Configuration</A>.</P></DIV></DIV>
+            <H1 id=3D"WritingaservicewithSpring-AdvancedSteps">Advanced =
+Steps</H1>
+            <P>For more information on using Spring you may want to read =
+the <A=20
+            href=3D"http://cxf.apache.org/docs/configuration.html"=20
+            shape=3D"rect">Configuration</A> and <A =
+href=3D"http://cxf.apache.org/docs/spring.html"=20
+            shape=3D"rect">Spring</A> sections of the User's=20
+Guide.</P></DIV></DIV><!-- Content --></TD></TR></TBODY></TABLE></TD>
+    <TD id=3D"cell-2-2" colSpan=3D"2">&nbsp;</TD></TR>
+  <TR>
+    <TD id=3D"cell-3-0">&nbsp;</TD>
+    <TD id=3D"cell-3-1">&nbsp;</TD>
+    <TD id=3D"cell-3-2">
+      <DIV id=3D"footer"><!-- Footer -->
+      <DIV id=3D"site-footer"><A=20
+      href=3D"http://cxf.apache.org/privacy-policy.html">Privacy =
+Policy</A> -     =20
+          (<A =
+href=3D"https://cwiki.apache.org/confluence/pages/editpage.action?pageId=3D=
+48729">edit=20
+      page</A>) 	 (<A =
+href=3D"https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=3D=
+48729&amp;showComments=3Dtrue&amp;showCommentArea=3Dtrue#addcomment">add =
+
+      comment</A>)<BR>	Apache CXF, CXF, Apache, the Apache feather logo =
+are=20
+      trademarks of The Apache Software Foundation.<BR>        All other =
+marks=20
+      mentioned may be trademarks or registered trademarks of their =
+respective=20
+      owners.       </DIV><!-- Footer --></DIV></TD>
+    <TD id=3D"cell-3-3">&nbsp;</TD>
+    <TD id=3D"cell-3-4">&nbsp;</TD></TR>
+  <TR>
+    <TD id=3D"cell-4-0" colSpan=3D"2">&nbsp;</TD>
+    <TD id=3D"cell-4-1">&nbsp;</TD>
+    <TD id=3D"cell-4-2" colSpan=3D"2">&nbsp;</TD></TR></TBODY></TABLE>
+<SCRIPT type=3D"text/javascript">=0A=
+var gaJsHost =3D (("https:" =3D=3D document.location.protocol) ? =
+"https://ssl." : "http://www.");=0A=
+document.write(unescape("%3Cscript src=3D'" + gaJsHost + =
+"google-analytics.com/ga.js' type=3D'text/javascript'%3E%3C/script%3E"));=0A=
+</SCRIPT>
+
+<SCRIPT type=3D"text/javascript">=0A=
+try {=0A=
+var pageTracker =3D _gat._getTracker("UA-4458903-1");=0A=
+pageTracker._trackPageview();=0A=
+} catch(err) {}</SCRIPT>
+</BODY></HTML>
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://cxf.apache.org/images/asf-logo.png
+
+iVBORw0KGgoAAAANSUhEUgAAAOEAAABFCAMAAACL4HGwAAAAA3NCSVQICAjb4U/gAAABfVBMVEX/
+///////29/fv7+/u7un38H/m5ube3t7x3pHx2XjW1tbY17rK09rMzMzY0mnZx73hx6HFxcXIx6DS
+xnLBwaC9vb3et2fKtrG1tbW8uWLgn73GqLCtra3no2XVn67DpnO8o43tmGOkpKS7pGO9nFyxnGWZ
+mZmhmFbPgqnbd522hJSMjIy9gGrhcVyfhEu9d2+EhISycpG9boV7e3t0eo3hW1TNXVJzc3PCXFaE
+ajZubzu1VHRmZma3UUrFQUr2MGBxWjJaWlrZM2veMlGnPk5SUlLCLFHVI1BKSkq4JV6zKEFCQkLM
+F0hbPCrCG0M6OjrsAFuIGYTpAFHeAk3ZAGjXAFozMzPMAGbSAE3BAGTPAEPCAFV3EnnCAEp1EYfC
+AECwAGmzAV60AEixAFMpKSmjAGGlAFKGB2+fAG5pDX2ZAGZlDHSZAE94BGaHAFMhISFaCVlyAVpm
+AGZoAlFPBVEZGRk5B0FLACQQEBAzADMgAiEICAgZAhsQAA8AAAC+pGJRAAAAf3RSTlMA////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////AKFsqQAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMi8x
+NC8wN6Uk3Q0AAAAgdEVYdFNvZnR3YXJlAE1hY3JvbWVkaWEgRmlyZXdvcmtzIE1Yu5EqJAAAD8BJ
+REFUeJztWolj08bSf5JSqYgKEEHUFJXDUNFWpNVDBbUPlValDqZO6xDbsh3HseMjIc7hJMSgRMR/
++5vZXflIbJLQr18LjyEkunZ3fjOzc0n/4t53+tffzcBfTh8Qvvs0AqEo/P+z8RcSQSgp/Qs8J/5d
+vPw1RBBOeF4Po8IruoiKvHb+/VAms1Knm9Lo0SeSbojcteJSqZab+eqra++8RqN9qDW66RgexI3v
+DJWvLpdq+WItV6jlnn795Wci/zey+Cep52kEu9ttmAInmd99p8jPN5vNYi1fqmXLlblMZeaXh+f/
+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
+rkJggg==
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: text/css;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/site.css
+
+body {
+	margin: 0px; padding: 0px;
+}
+#cell-0-0 {
+	background: =
+url("http://cxf.apache.org/images/bg02-white-left-nogr.png") repeat-y =
+right top white;
+}
+#cell-0-1 {
+	width: 85%; height: 1em;
+}
+#cell-0-2 {
+	background: =
+url("http://cxf.apache.org/images/bg02-white-right-nogr.png") repeat-y =
+left top;
+}
+#cell-1-0 {
+	background: url("http://cxf.apache.org/images/bg.png") repeat-x top;
+}
+#cell-1-1 {
+	background: url("http://cxf.apache.org/images/bg02-blue-left.png") =
+no-repeat right top; width: 13px;
+}
+#cell-1-2 {
+	background: url("http://cxf.apache.org/images/bg.png") repeat-x top; =
+width: 85%;
+}
+#banner {
+	height: 70px;
+}
+#cell-1-3 {
+	background: url("http://cxf.apache.org/images/bg02-blue-right.png") =
+no-repeat left top; width: 13px;
+}
+#cell-1-4 {
+	background: url("http://cxf.apache.org/images/bg.png") repeat-x top;
+}
+#cell-2-0 {
+	background: =
+url("http://cxf.apache.org/images/bg02-white-left-nogr.png") repeat-y =
+right top white;
+}
+#cell-2-1 {
+	width: 85%; height: 1em;
+}
+#cell-2-2 {
+	background: =
+url("http://cxf.apache.org/images/bg02-white-right-nogr.png") repeat-y =
+left top white;
+}
+#cell-3-0 {
+	background: url("http://cxf.apache.org/images/bg.png") repeat-x top;
+}
+#cell-3-1 {
+	background: url("http://cxf.apache.org/images/bg02-blue-left.png") =
+no-repeat right top; width: 13px;
+}
+#cell-3-2 {
+	background: url("http://cxf.apache.org/images/bg.png") repeat-x top; =
+width: 85%;
+}
+#cell-3-3 {
+	background: url("http://cxf.apache.org/images/bg02-blue-right.png") =
+no-repeat left top; width: 13px;
+}
+#cell-3-4 {
+	background: url("http://cxf.apache.org/images/bg.png") repeat-x top;
+}
+#cell-4-0 {
+	background: =
+url("http://cxf.apache.org/images/bg02-white-left-nogr.png") repeat-y =
+right top white;
+}
+#cell-4-1 {
+	width: 85%; height: 1em;
+}
+#cell-4-2 {
+	background: =
+url("http://cxf.apache.org/images/bg02-white-right-nogr.png") repeat-y =
+left top;
+}
+#banner {
+	margin: 5px; padding: 0px; text-align: center; font-family: Verdana, =
+arial, sans-serif; font-size: 200%;
+}
+#top-menu {
+	margin: 0px 8px; padding: 0px; color: white; line-height: 10px; =
+font-family: Verdana, arial, sans-serif; font-size: 11px; font-weight: =
+bold;
+}
+#top-menu a:link {
+	color: rgb(255, 255, 255); text-decoration: none;
+}
+#top-menu a:visited {
+	color: rgb(255, 255, 255); text-decoration: none;
+}
+#top-menu a:active {
+	color: rgb(91, 143, 190); text-decoration: underline;
+}
+#top-menu a:hover {
+	color: rgb(91, 143, 190); text-decoration: underline;
+}
+#top-menu sup img {
+	width: 0px; height: 0px;
+}
+#footer {
+	padding: 0px 50px; text-align: center; color: rgb(91, 143, 190); =
+font-family: Verdana, arial, sans-serif; font-size: 65%; min-height: =
+0em;
+}
+#footer a:link {
+	color: white; text-decoration: none;
+}
+#footer a:visited {
+	color: white; text-decoration: none;
+}
+#footer a:hover {
+	color: white; text-decoration: underline;
+}
+#wrapper-menu-page-right {
+	background: url("http://cxf.apache.org/images/left-box-right.png") =
+repeat-y right;
+}
+#wrapper-menu-page-bottom {
+	background: url("http://cxf.apache.org/images/left-box-bottom.png") =
+no-repeat right bottom;
+}
+#wrapper-menu-page-top {
+	background: url("http://cxf.apache.org/images/left-box-top.png") =
+no-repeat right top;
+}
+#menu-page {
+	margin: 0px; padding: 17px 11px 17px 0px; width: 200px; text-align: =
+left; color: rgb(91, 143, 190); line-height: 1em; font-family: Verdana, =
+arial, sans-serif; font-weight: bold;
+}
+#menu-page ul {
+	margin: 0px; padding: 0px 0px 0px 35px; font-size: 75%;
+}
+#menu-page h3 {
+	margin: 1em 0px 0.3em; color: rgb(91, 143, 190); text-transform: =
+uppercase; letter-spacing: 0.15em; padding-left: 10px; font-family: =
+Verdana, arial, sans-serif; font-size: 75%; font-weight: bold;
+}
+#menu-page a:link {
+	color: black;
+}
+#menu-page a:visited {
+	color: black;
+}
+#menu-page a:hover {
+	color: rgb(91, 143, 190);
+}
+#content {
+	padding: 20px 0px 0px; width: 100%; height: 100%; text-align: left; =
+color: black; display: block;
+}
+h2 {
+	font-size: 110%;
+}
+h3 {
+	font-size: 100%;
+}
+a:link {
+	color: rgb(91, 143, 190); text-decoration: none;
+}
+a:visited {
+	color: rgb(91, 143, 190); text-decoration: none;
+}
+a:hover {
+	color: rgb(102, 102, 102); text-decoration: none;
+}
+table.align {
+	padding: 0px; border: currentColor;
+}
+td.align {
+	padding: 0px; border: currentColor;
+}
+.wiki-content {
+	color: rgb(0, 0, 0); line-height: 16px; padding-top: 10px; =
+padding-bottom: 10px; font-family: Verdana, arial, sans-serif; =
+font-size: 11px; font-weight: normal;
+}
+.monospaceInput {
+	font: 12px/normal monospace; font-size-adjust: none; font-stretch: =
+normal;
+}
+.wiki-content p {
+	margin: 16px 0px; padding: 0px;
+}
+.commentblock p {
+	margin: 16px 0px; padding: 0px;
+}
+.wiki-content-preview {
+	padding: 5px; border-right-color: rgb(60, 120, 181); border-left-color: =
+rgb(60, 120, 181); border-right-width: 1px; border-left-width: 1px; =
+border-right-style: solid; border-left-style: solid;
+}
+ul {
+	padding-top: 0px; padding-bottom: 0px; margin-top: 2px; margin-bottom: =
+2px;
+}
+ol {
+	padding-top: 0px; padding-bottom: 0px; margin-top: 2px; margin-bottom: =
+2px;
+}
+pre {
+	margin: 5px 5px 5px 15px; padding: 0px; text-align: left;
+}
+.helpheading {
+	margin: 10px 0px 0px; padding: 4px; font-weight: bold; =
+border-bottom-color: rgb(60, 120, 181); border-bottom-width: 1px; =
+border-bottom-style: solid; background-color: rgb(208, 217, 189);
+}
+.helpcontent {
+	padding: 4px 4px 20px; background-color: rgb(245, 247, 241);
+}
+.code {
+	margin: 10px; border: 1px dashed rgb(60, 120, 181); line-height: 13px; =
+font-family: Courier; font-size: 11px;
+}
+.focusedComment {
+	background: rgb(255, 255, 206);
+}
+.commentBox {
+	margin: 5px 0px; padding: 10px; border: 1px solid rgb(187, 187, 187);
+}
+.focusedComment {
+	margin: 5px 0px; padding: 10px; border: 1px solid rgb(187, 187, 187);
+}
+.codeHeader {
+	padding: 3px; text-align: center; border-bottom-color: rgb(60, 120, =
+181); border-bottom-width: 1px; border-bottom-style: dashed; =
+background-color: rgb(240, 240, 240);
+}
+.codeContent {
+	padding: 3px; text-align: left; background-color: rgb(240, 240, 240);
+}
+.preformatted {
+	margin: 10px; border: 1px dashed rgb(60, 120, 181); line-height: 13px; =
+font-family: Courier; font-size: 11px;
+}
+.preformattedHeader {
+	padding: 3px; text-align: center; border-bottom-color: rgb(60, 120, =
+181); border-bottom-width: 1px; border-bottom-style: dashed; =
+background-color: rgb(240, 240, 240);
+}
+.preformattedContent {
+	padding: 3px; background-color: rgb(240, 240, 240);
+}
+.panel {
+	margin: 0px 10px 10px; border: 1px dashed rgb(60, 120, 181);
+}
+.panelHeader {
+	padding: 3px; text-align: center; border-bottom-color: rgb(60, 120, =
+181); border-bottom-width: 1px; border-bottom-style: dashed; =
+background-color: rgb(240, 240, 240);
+}
+.panelContent {
+	padding: 5px; background-color: rgb(240, 240, 240);
+}
+.anonymousAlert {
+	margin: 4px; padding: 10px 5px; border: 1px dashed red; line-height: =
+13px; font-size: 11px; background-color: rgb(240, 240, 240);
+}
+.lockAlert {
+	margin: 4px; padding: 10px 5px; border: 1px dashed red; width: 50%; =
+line-height: 13px; font-size: 11px; background-color: rgb(240, 240, =
+240);
+}
+.code-keyword {
+	color: rgb(0, 0, 145); background-color: inherit;
+}
+.code-object {
+	color: rgb(145, 0, 145); background-color: inherit;
+}
+.code-quote {
+	color: rgb(0, 145, 0); background-color: inherit;
+}
+.code-comment {
+	color: rgb(128, 128, 128); background-color: inherit;
+}
+.code-xml .code-keyword {
+	color: inherit; font-weight: bold;
+}
+.code-tag {
+	color: rgb(0, 0, 145); background-color: inherit;
+}
+.breadcrumbs {
+	border-width: 1px 0px; border-style: solid; border-color: rgb(60, 120, =
+181); padding: 3px 0px; font-size: 11px; background-color: rgb(240, 240, =
+240);
+}
+.navmenu {
+	border: 1px solid rgb(204, 204, 204);
+}
+.menuheading {
+	padding: 4px 4px 2px; font-weight: bold; border-bottom-color: rgb(60, =
+120, 181); border-bottom-width: 1px; border-bottom-style: solid; =
+background-color: rgb(240, 240, 240);
+}
+.menuitems {
+	padding: 4px 4px 20px;
+}
+.rightpanel {
+	border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, =
+204, 204); border-bottom-width: 1px; border-left-width: 1px; =
+border-bottom-style: solid; border-left-style: solid;
+}
+#helpheading {
+	margin: 0px; padding: 4px; text-align: left; font-weight: bold; =
+border-bottom-color: rgb(60, 120, 181); border-bottom-width: 1px; =
+border-bottom-style: solid; background-color: rgb(208, 217, 189);
+}
+#helpcontent {
+	padding: 4px; background-color: rgb(245, 247, 241);
+}
+.helptab-unselected {
+	padding: 5px; font-weight: bold; background-color: rgb(245, 247, 241);
+}
+.helptab-selected {
+	padding: 5px; font-weight: bold; background-color: rgb(208, 217, 189);
+}
+.helptabs {
+	margin: 0px; padding: 5px; background-color: rgb(245, 247, 241);
+}
+.infopanel-heading {
+	padding: 4px 0px 2px; font-weight: bold;
+}
+.pagebody {
+=09
+}
+.pageheader {
+	padding: 5px 5px 5px 0px; border-bottom-color: rgb(60, 120, 181); =
+border-bottom-width: 1px; border-bottom-style: solid;
+}
+.steptitle {
+	color: rgb(0, 51, 102); font-family: Arial, sans-serif; font-size: =
+18px; font-weight: bold; margin-bottom: 7px;
+}
+.substeptitle {
+	margin: 2px 4px 4px; padding: 2px 4px 1px; color: rgb(0, 51, 102); =
+font-family: Arial, sans-serif; font-size: 12px; font-weight: bold;
+}
+.stepdesc {
+	color: rgb(102, 102, 102); line-height: 16px; font-family: Verdana, =
+arial, sans-serif; font-size: 11px; font-weight: normal; margin-top: =
+7px; margin-bottom: 7px;
+}
+.steplabel {
+	width: 15%; text-align: right; color: black; font-weight: bold; =
+margin-right: 4px; float: left;
+}
+.stepfield {
+	background: rgb(240, 240, 240); padding: 5px;
+}
+.submitButtons {
+	text-align: right; margin-top: 5px;
+}
+.formtitle {
+	color: rgb(0, 51, 102); font-family: Arial, sans-serif; font-size: =
+12px; font-weight: bold;
+}
+.sectionbottom {
+	border-bottom-color: rgb(60, 120, 181); border-bottom-width: 1px; =
+border-bottom-style: solid;
+}
+.topRow {
+	border-top-color: rgb(60, 120, 181); border-top-width: 2px; =
+border-top-style: solid;
+}
+.tabletitle {
+	margin: 8px 4px 2px 0px; padding: 3px 0px 2px; color: rgb(0, 51, 102); =
+font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; =
+border-bottom-color: rgb(60, 120, 181); border-bottom-width: 2px; =
+border-bottom-style: solid;
+}
+.pagesubheading {
+	padding: 0px 0px 5px; color: rgb(102, 102, 102); font-size: 10px;
+}
+hr {
+=09
+}
+a:link {
+	color: rgb(91, 143, 190);
+}
+a:visited {
+	color: rgb(91, 143, 190);
+}
+a:active {
+	color: rgb(91, 143, 190);
+}
+a:hover {
+	color: rgb(91, 143, 190);
+}
+a:hover {
+	text-decoration: underline;
+}
+h1 a:link {
+	text-decoration: none;
+}
+h1 a:visited {
+	text-decoration: none;
+}
+h1 a:active {
+	text-decoration: none;
+}
+h1 a:hover {
+	border-bottom-color: rgb(0, 51, 102); border-bottom-width: 1px; =
+border-bottom-style: dotted;
+}
+.wiki-content > :first-child {
+	margin-top: 3px;
+}
+.commentblock > :first-child {
+	margin-top: 3px;
+}
+.logocell {
+	padding: 10px;
+}
+input {
+	color: rgb(0, 0, 0); font-family: verdana, geneva, arial, sans-serif; =
+font-size: 11px;
+}
+textarea {
+	color: rgb(51, 51, 51); font-family: verdana, geneva, arial, =
+sans-serif; font-size: 11px;
+}
+textarea.editor {
+	color: rgb(51, 51, 51); font-family: verdana, geneva, arial, =
+sans-serif; font-size: 11px;
+}
+.spacenametitle-printable {
+	font: 100 20px/25px Impact, Arial, Helvetica; margin: 0px; color: =
+rgb(153, 153, 153); font-size-adjust: none; font-stretch: normal;
+}
+.spacenametitle-printable a {
+	color: rgb(153, 153, 153); text-decoration: none;
+}
+.spacenametitle-printable a:visited {
+	color: rgb(153, 153, 153); text-decoration: none;
+}
+.blogDate {
+	color: black; font-weight: bold; text-decoration: none;
+}
+.blogSurtitle {
+	background: rgb(240, 240, 240); margin: 1px 1px 10px; padding: 3px; =
+border: 1px solid rgb(221, 221, 221);
+}
+.blogHeading {
+	margin: 0px; padding: 0px; line-height: normal; font-size: 20px; =
+font-weight: bold;
+}
+.blogHeading a {
+	color: black; text-decoration: none;
+}
+.endsection {
+	color: rgb(102, 102, 102); margin-top: 10px; align: right;
+}
+.endsectionleftnav {
+	color: rgb(102, 102, 102); margin-top: 10px; align: right;
+}
+h1 {
+	margin: 36px 0px 4px; padding: 2px; color: rgb(0, 51, 102); =
+line-height: normal; font-size: 24px; font-weight: bold; =
+border-bottom-color: rgb(60, 120, 181); border-bottom-width: 1px; =
+border-bottom-style: solid; background-color: rgb(240, 240, 240);
+}
+h2 {
+	margin: 27px 0px 4px; padding: 2px; line-height: normal; font-size: =
+18px; font-weight: bold; border-bottom-color: rgb(60, 120, 181); =
+border-bottom-width: 1px; border-bottom-style: solid; background-color: =
+rgb(240, 240, 240);
+}
+h3 {
+	margin: 21px 0px 4px; padding: 2px; line-height: normal; font-size: =
+14px; font-weight: bold; background-color: rgb(240, 240, 240);
+}
+h4 {
+	margin: 18px 0px 4px; padding: 2px; line-height: normal; font-size: =
+12px; font-weight: bold; background-color: rgb(240, 240, 240);
+}
+h4.search {
+	margin: 18px 0px 4px; padding: 4px; line-height: normal; font-size: =
+12px; font-weight: normal; background-color: rgb(240, 240, 240);
+}
+h5 {
+	margin: 14px 0px 4px; padding: 2px; line-height: normal; font-size: =
+10px; font-weight: bold; background-color: rgb(240, 240, 240);
+}
+h6 {
+	margin: 14px 0px 4px; padding: 2px; line-height: normal; font-size: =
+8px; font-weight: bold; background-color: rgb(240, 240, 240);
+}
+.smallfont {
+	font-size: 10px;
+}
+.descfont {
+	color: rgb(102, 102, 102); font-size: 10px;
+}
+.smallerfont {
+	font-size: 9px;
+}
+.smalltext {
+	color: rgb(102, 102, 102); font-size: 10px;
+}
+.smalltext a {
+	color: rgb(102, 102, 102);
+}
+.smalltext-blue {
+	color: rgb(60, 120, 181); font-size: 10px;
+}
+.surtitle {
+	color: rgb(102, 102, 102); font-size: 14px; margin-bottom: 5px; =
+margin-left: 1px;
+}
+.navItemOver {
+	color: rgb(255, 255, 255); font-size: 10px; font-weight: bold; cursor: =
+pointer; background-color: rgb(0, 51, 102); voice-family: inherit;
+}
+.navItemOver a {
+	color: rgb(255, 255, 255); text-decoration: none; background-color: =
+rgb(0, 51, 102);
+}
+.navItemOver a:visited {
+	color: rgb(255, 255, 255); text-decoration: none; background-color: =
+rgb(0, 51, 102);
+}
+.navItemOver a:hover {
+	color: rgb(255, 255, 255); text-decoration: none; background-color: =
+rgb(0, 51, 102);
+}
+.navItem {
+	color: rgb(255, 255, 255); font-size: 10px; font-weight: bold; =
+background-color: rgb(60, 120, 181);
+}
+.navItem a {
+	color: rgb(255, 255, 255); text-decoration: none;
+}
+.navItem a:hover {
+	color: rgb(255, 255, 255); text-decoration: none;
+}
+.navItem a:visited {
+	color: rgb(255, 255, 255); text-decoration: none;
+}
+div.padded {
+	padding: 4px;
+}
+div.thickPadded {
+	padding: 10px;
+}
+h3.macrolibrariestitle {
+	margin: 0px;
+}
+div.centered {
+	margin: 10px; text-align: center;
+}
+div.centered table {
+	margin: 0px auto; text-align: left;
+}
+.tableview table {
+	margin: 0px;
+}
+.tableview th {
+	padding: 5px 0px 0px 5px; text-align: left; color: rgb(0, 51, 102); =
+font-size: 12px; border-bottom-color: rgb(60, 120, 181); =
+border-bottom-width: 2px; border-bottom-style: solid;
+}
+.tableview td {
+	border-width: 0px 0px 1px; border-style: solid; border-color: rgb(204, =
+204, 204); margin: 0px; padding: 4px 10px 4px 5px; text-align: left;
+}
+.grid {
+	margin: 2px 0px 5px; border-collapse: collapse;
+}
+.grid th {
+	background: rgb(240, 240, 240); padding: 2px 4px; border: 1px solid =
+rgb(204, 204, 204); text-align: center;
+}
+.grid td {
+	padding: 3px 4px; border: 1px solid rgb(204, 204, 204);
+}
+.gridHover {
+	background-color: rgb(249, 249, 249);
+}
+td.infocell {
+	background-color: rgb(240, 240, 240);
+}
+.label {
+	color: rgb(0, 51, 102); font-weight: bold;
+}
+.error {
+	background-color: rgb(255, 204, 204);
+}
+.errorBox {
+	margin: 5px; padding: 5px; border: 1px solid rgb(204, 0, 0); =
+background-color: rgb(255, 204, 204);
+}
+.errorMessage {
+	color: rgb(204, 0, 0);
+}
+.success {
+	background-color: rgb(221, 255, 221);
+}
+.successBox {
+	padding: 5px; border: 1px solid rgb(0, 153, 0); margin-top: 5px; =
+margin-bottom: 5px; background-color: rgb(221, 255, 221);
+}
+blockquote {
+	padding-right: 10px; padding-left: 10px; margin-right: 0px; =
+margin-left: 5px; border-left-color: rgb(60, 120, 181); =
+border-left-width: 1px; border-left-style: solid;
+}
+table.confluenceTable {
+	margin: 5px; border-collapse: collapse;
+}
+table.confluenceTable td.confluenceTd {
+	padding: 3px 4px; border: 1px solid rgb(204, 204, 204);
+}
+table.confluenceTable th.confluenceTh {
+	padding: 3px 4px; border: 1px solid rgb(204, 204, 204); text-align: =
+center; background-color: rgb(240, 240, 240);
+}
+td.confluenceTd {
+	padding: 3px 4px; border: 1px solid rgb(204, 204, 204);
+}
+th.confluenceTh {
+	padding: 3px 4px; border: 1px solid rgb(204, 204, 204); text-align: =
+center; background-color: rgb(240, 240, 240);
+}
+div.small {
+	font-size: 9px;
+}
+h1.pagename {
+	margin-top: 0px;
+}
+img.inline {
+=09
+}
+.loginform {
+	margin: 5px; border: 1px solid rgb(204, 204, 204);
+}
+.previewnote {
+	text-align: center; color: red; font-size: 11px;
+}
+.previewcontent {
+	background: rgb(224, 224, 224);
+}
+.messagecontent {
+	background: rgb(224, 224, 224);
+}
+.conflictnote {
+=09
+}
+.createlink {
+	color: maroon;
+}
+a.createlink {
+	color: maroon;
+}
+.templateparameter {
+	color: darkblue; font-size: 9px;
+}
+.diffadded {
+	background: rgb(221, 255, 221); padding: 1px 1px 1px 4px; =
+border-left-color: darkgreen; border-left-width: 4px; border-left-style: =
+solid;
+}
+.diffdeleted {
+	background: rgb(255, 221, 221); padding: 1px 1px 1px 4px; color: =
+rgb(153, 153, 153); border-left-color: darkred; border-left-width: 4px; =
+border-left-style: solid;
+}
+.diffnochange {
+	padding: 1px 1px 1px 4px; border-left-color: lightgrey; =
+border-left-width: 4px; border-left-style: solid;
+}
+.differror {
+	background: brown;
+}
+.diff {
+	line-height: 14px; font-family: lucida console, courier new, =
+fixed-width; font-size: 12px;
+}
+.diffaddedchars {
+	font-weight: bolder; background-color: rgb(153, 255, 153);
+}
+.diffremovedchars {
+	font-weight: bolder; text-decoration: line-through; background-color: =
+rgb(255, 153, 153);
+}
+.greybackground {
+	background: rgb(240, 240, 240);
+}
+.greybox {
+	margin: 1px 1px 10px; padding: 3px; border: 1px solid rgb(221, 221, =
+221);
+}
+.borderedGreyBox {
+	padding: 10px; border: 1px solid rgb(204, 204, 204); background-color: =
+rgb(240, 240, 240);
+}
+.greyboxfilled {
+	background: rgb(240, 240, 240); margin: 10px 1px; padding: 5px; border: =
+1px solid rgb(221, 221, 221);
+}
+.navBackgroundBox {
+	background: rgb(60, 120, 181); padding: 5px; color: white; font-family: =
+Arial, sans-serif; font-size: 22px; font-weight: bold; text-decoration: =
+none;
+}
+.previewBoxTop {
+	border-width: 1px 1px 0px; border-style: solid; border-color: rgb(60, =
+120, 181); margin: 5px 0px 0px; padding: 5px; text-align: center; =
+background-color: rgb(240, 240, 240);
+}
+.previewContent {
+	border-width: 0px 1px; border-style: solid; border-color: rgb(60, 120, =
+181); margin: 0px; padding: 10px; background-color: rgb(255, 255, 255);
+}
+.previewBoxBottom {
+	border-width: 0px 1px 1px; border-style: solid; border-color: rgb(60, =
+120, 181); margin: 0px 0px 5px; padding: 5px; text-align: center; =
+background-color: rgb(240, 240, 240);
+}
+.functionbox {
+	margin: 1px 1px 10px; padding: 3px; border: 1px solid rgb(60, 120, =
+181); background-color: rgb(240, 240, 240);
+}
+.functionbox-greyborder {
+	margin: 1px 1px 10px; padding: 3px; border: 1px solid rgb(221, 221, =
+221); background-color: rgb(240, 240, 240);
+}
+.search-highlight {
+	background-color: rgb(255, 255, 204);
+}
+.rowNormal {
+	background-color: rgb(255, 255, 255);
+}
+.rowAlternate {
+	background-color: rgb(247, 247, 247);
+}
+.rowAlternateNoBottomColor {
+	background-color: rgb(247, 247, 247);
+}
+.rowAlternateNoBottomNoColor {
+=09
+}
+.rowAlternateNoBottomColor td {
+	border-bottom-color: currentColor; border-bottom-width: 0px; =
+border-bottom-style: none;
+}
+.rowAlternateNoBottomNoColor td {
+	border-bottom-color: currentColor; border-bottom-width: 0px; =
+border-bottom-style: none;
+}
+.rowHighlight {
+	background-color: rgb(240, 240, 240);
+}
+td.greenbar {
+	background: rgb(0, 223, 0); padding: 0px; border: 1px solid rgb(156, =
+156, 156); font-size: 2px;
+}
+td.redbar {
+	background: rgb(223, 0, 0); padding: 0px; border: 1px solid rgb(156, =
+156, 156); font-size: 2px;
+}
+td.darkredbar {
+	background: rgb(175, 0, 0); padding: 0px; border: 1px solid rgb(156, =
+156, 156); font-size: 2px;
+}
+tr.testpassed {
+	background: rgb(221, 255, 221); padding: 0px; font-size: 2px;
+}
+tr.testfailed {
+	background: rgb(255, 221, 221); padding: 0px; font-size: 2px;
+}
+.toolbar {
+	margin: 0px; border-collapse: collapse;
+}
+.toolbar td {
+	padding: 2px; border: 1px solid rgb(204, 204, 204); color: rgb(204, =
+204, 204);
+}
+td.noformatting {
+	border-width: 0px; padding: 0px; text-align: center;
+}
+.commentblock {
+	margin: 12px 0px;
+}
+.license-eval {
+	text-align: center; font-family: Verdana, Arial, Helvetica, sans-serif; =
+font-size: 10px; border-top-color: rgb(187, 187, 187); border-top-width: =
+1px; border-top-style: solid;
+}
+.license-none {
+	text-align: center; font-family: Verdana, Arial, Helvetica, sans-serif; =
+font-size: 10px; border-top-color: rgb(187, 187, 187); border-top-width: =
+1px; border-top-style: solid;
+}
+.license-nonprofit {
+	text-align: center; font-family: Verdana, Arial, Helvetica, sans-serif; =
+font-size: 10px; border-top-color: rgb(187, 187, 187); border-top-width: =
+1px; border-top-style: solid;
+}
+.license-eval {
+	background-color: rgb(255, 204, 204);
+}
+.license-none {
+	background-color: rgb(255, 204, 204);
+}
+.license-eval b {
+	color: rgb(153, 0, 0);
+}
+.license-none b {
+	color: rgb(153, 0, 0);
+}
+.license-nonprofit {
+	background-color: rgb(255, 255, 255);
+}
+.bottomshadow {
+	height: 12px; background-repeat: repeat-x;
+}
+.navmenu .operations li {
+	list-style: none; padding-left: 0px; margin-left: 0px;
+}
+.navmenu .operations ul {
+	list-style: none; padding-left: 0px; margin-left: 0px;
+}
+.navmenu .operations ul {
+	margin-bottom: 9px;
+}
+.navmenu .label {
+	font-weight: inherit;
+}
+.toolbar div {
+	display: none;
+}
+.toolbar .label {
+	display: none;
+}
+.toolbar .operations {
+	display: block;
+}
+.toolbar .operations ul {
+	list-style: none; padding-left: 0px; margin-left: 10px; display: =
+inline;
+}
+.toolbar .operations li {
+	list-style: none; display: inline;
+}
+#foldertab {
+	font: bold 11px/normal Verdana, sans-serif; padding: 3px 0px 3px 8px; =
+margin-left: 0px; border-bottom-color: rgb(60, 120, 181); =
+border-bottom-width: 1px; border-bottom-style: solid; font-size-adjust: =
+none; font-stretch: normal;
+}
+#foldertab li {
+	list-style: none; margin: 0px; display: inline;
+}
+#foldertab li a {
+	background: rgb(60, 120, 181); border-width: 1px 1px medium; =
+border-style: solid solid none; border-color: rgb(60, 120, 181) rgb(60, =
+120, 181) currentColor; padding: 3px 0.5em; text-decoration: none; =
+margin-left: 3px;
+}
+#foldertab li a:link {
+	color: rgb(255, 255, 255);
+}
+#foldertab li a:visited {
+	color: rgb(255, 255, 255);
+}
+#foldertab li a:hover {
+	background: rgb(0, 51, 102); border-color: rgb(0, 51, 102); color: =
+rgb(255, 255, 255);
+}
+#foldertab li a.current {
+	background: white; color: black; border-bottom-color: white; =
+border-bottom-width: 1px; border-bottom-style: solid;
+}
+#foldertab li a.current:link {
+	color: black;
+}
+#foldertab li a.current:visited {
+	color: black;
+}
+#foldertab li a.current:hover {
+	background: white; color: black; border-bottom-color: white; =
+border-bottom-width: 1px; border-bottom-style: solid;
+}
+ul#squaretab {
+	font: bold 8px/normal Verdana, sans-serif; padding-left: 0px; =
+margin-left: 0px; white-space: nowrap; font-size-adjust: none; =
+font-stretch: normal;
+}
+#squaretab li {
+	display: inline; list-style-type: none;
+}
+#squaretab a {
+	padding: 2px 6px; border: 1px solid rgb(60, 120, 181);
+}
+#squaretab a:link {
+	color: rgb(255, 255, 255); text-decoration: none; background-color: =
+rgb(60, 120, 181);
+}
+#squaretab a:visited {
+	color: rgb(255, 255, 255); text-decoration: none; background-color: =
+rgb(60, 120, 181);
+}
+#squaretab a:hover {
+	border-color: rgb(0, 51, 102); color: rgb(255, 255, 255); =
+text-decoration: none; background-color: rgb(0, 51, 102);
+}
+#squaretab li a#current {
+	background: white; color: black;
+}
+.blogcalendar * {
+	padding: 2px; line-height: 140%; font-family: verdana, arial, =
+sans-serif; font-size: x-small; font-weight: normal;
+}
+table.blogcalendar {
+	border: 1px solid rgb(60, 120, 181);
+}
+.blogcalendar th.calendarhead {
+	padding: 2px; color: rgb(255, 255, 255); text-transform: uppercase; =
+letter-spacing: 0.3em; font-size: x-small; font-weight: bold; =
+background-color: rgb(60, 120, 181);
+}
+a.calendarhead {
+	padding: 2px; color: rgb(255, 255, 255); text-transform: uppercase; =
+letter-spacing: 0.3em; font-size: x-small; font-weight: bold; =
+background-color: rgb(60, 120, 181);
+}
+.calendarhead:visited {
+	color: white;
+}
+.calendarhead:active {
+	color: white;
+}
+.calendarhead:hover {
+	color: white;
+}
+.blogcalendar th {
+	padding: 2px; font-size: x-small; font-weight: bold; background-color: =
+rgb(240, 240, 240);
+}
+.blogcalendar td {
+	font-size: x-small; font-weight: normal;
+}
+.searchGroup {
+	background: rgb(240, 240, 240); padding: 0px 0px 10px;
+}
+.searchGroupHeading {
+	padding: 2px 4px 1px; color: rgb(255, 255, 255); font-size: 10px; =
+font-weight: bold; background-color: rgb(60, 120, 181);
+}
+.searchItem {
+	padding: 1px 4px;
+}
+.searchItemSelected {
+	background: rgb(221, 221, 221); padding: 1px 4px; font-weight: bold;
+}
+.permissionHeading {
+	border-width: 0px 0px 1px; border-style: solid; text-align: left; =
+font-size: 16px; border-bottom-color: rgb(187, 187, 187);
+}
+.permissionTab {
+	background: rgb(60, 120, 181); border-width: 0px 0px 0px 1px; =
+border-style: solid; color: rgb(255, 255, 255); font-size: 10px;
+}
+.permissionSuperTab {
+	background: rgb(0, 51, 102); border-width: 0px 0px 0px 1px; =
+border-style: solid; color: rgb(255, 255, 255);
+}
+.permissionCell {
+	border-width: 0px 0px 0px 1px; border-style: solid; border-left-color: =
+rgb(187, 187, 187);
+}
+.warningPanel {
+	background: rgb(255, 255, 206); margin: 10px; padding: 8px; border: 1px =
+solid rgb(240, 192, 0);
+}
+.alertPanel {
+	background: rgb(255, 204, 204); margin: 10px; padding: 8px; border: 1px =
+solid rgb(204, 0, 0);
+}
+.optionPadded {
+	padding: 2px;
+}
+.optionSelected {
+	margin: -1px; padding: 2px; border: 1px solid rgb(221, 221, 221); =
+background-color: rgb(255, 255, 204);
+}
+.optionSelected a {
+	color: black; font-weight: bold; text-decoration: none;
+}
+.noteMacro {
+	border: 1px solid rgb(240, 192, 0); text-align: left; margin-top: 5px; =
+margin-bottom: 5px; background-color: rgb(255, 255, 206);
+}
+.warningMacro {
+	border: 1px solid rgb(204, 0, 0); text-align: left; margin-top: 5px; =
+margin-bottom: 5px; background-color: rgb(255, 204, 204);
+}
+.infoMacro {
+	border: 1px solid rgb(60, 120, 181); text-align: left; margin-top: 5px; =
+margin-bottom: 5px; background-color: rgb(216, 228, 241);
+}
+.tipMacro {
+	border: 1px solid rgb(0, 153, 0); text-align: left; margin-top: 5px; =
+margin-bottom: 5px; background-color: rgb(221, 255, 221);
+}
+.informationMacroPadding {
+	padding: 5px 0px 0px 5px;
+}
+table.infoMacro td {
+	border: currentColor;
+}
+table.warningMacro td {
+	border: currentColor;
+}
+table.tipMacro td {
+	border: currentColor;
+}
+table.noteMacro td {
+	border: currentColor;
+}
+table.sectionMacro td {
+	border: currentColor;
+}
+table.sectionMacroWithBorder td.columnMacro {
+	border: 1px dashed rgb(204, 204, 204);
+}
+.topBarDiv a:link {
+	color: rgb(255, 255, 255);
+}
+.topBarDiv a:visited {
+	color: rgb(255, 255, 255);
+}
+.topBarDiv a:active {
+	color: rgb(255, 255, 255);
+}
+.topBarDiv a:hover {
+	color: rgb(255, 255, 255);
+}
+.topBarDiv {
+	color: rgb(255, 255, 255);
+}
+.topBar {
+	background-color: rgb(0, 51, 102);
+}
+.greyLinks a:link {
+	color: rgb(102, 102, 102); text-decoration: underline;
+}
+.greyLinks a:visited {
+	color: rgb(102, 102, 102); text-decoration: underline;
+}
+.greyLinks a:active {
+	color: rgb(102, 102, 102); text-decoration: underline;
+}
+.greyLinks a:hover {
+	color: rgb(102, 102, 102); text-decoration: underline;
+}
+.greyLinks {
+	padding: 10px; color: rgb(102, 102, 102); display: block;
+}
+.logoSpaceLink {
+	color: rgb(153, 153, 153); text-decoration: none;
+}
+.logoSpaceLink a:link {
+	color: rgb(153, 153, 153); text-decoration: none;
+}
+.logoSpaceLink a:visited {
+	color: rgb(153, 153, 153); text-decoration: none;
+}
+.logoSpaceLink a:active {
+	color: rgb(153, 153, 153); text-decoration: none;
+}
+.logoSpaceLink a:hover {
+	color: rgb(0, 51, 102); text-decoration: none;
+}
+.basicPanelContainer {
+	border: 1px solid rgb(60, 120, 181); width: 100%; margin-top: 2px; =
+margin-bottom: 8px;
+}
+.basicPanelTitle {
+	margin: 0px; padding: 5px; color: black; font-weight: bold; =
+background-color: rgb(240, 240, 240);
+}
+.basicPanelBody {
+	margin: 0px; padding: 5px;
+}
+.separatorLinks a:link {
+	color: white;
+}
+.separatorLinks a:visited {
+	color: white;
+}
+.separatorLinks a:active {
+	color: white;
+}
+.greynavbar {
+	margin-top: 2px; border-top-color: rgb(60, 120, 181); border-top-width: =
+1px; border-top-style: solid; background-color: rgb(240, 240, 240);
+}
+div.headerField {
+	width: auto; height: 100%; float: left;
+}
+.headerFloat {
+	width: 50%; margin-left: auto;
+}
+.headerFloatLeft {
+	margin-right: 20px; margin-bottom: 10px; float: left;
+}
+#headerRow {
+	padding: 10px;
+}
+div.license-personal {
+	color: rgb(255, 255, 255); background-color: rgb(0, 51, 102);
+}
+div.license-personal a {
+	color: rgb(255, 255, 255);
+}
+.greyFormBox {
+	padding: 5px; border: 1px solid rgb(204, 204, 204);
+}
+.marginlessForm {
+	margin: 0px;
+}
+.openPageHighlight {
+	padding: 2px; border: 1px solid rgb(221, 221, 221); background-color: =
+rgb(255, 255, 204);
+}
+.editPageInsertLinks {
+	color: rgb(102, 102, 102); font-size: 10px; font-weight: bold;
+}
+.editPageInsertLinks a {
+	color: rgb(102, 102, 102); font-size: 10px; font-weight: bold;
+}
+.top10 a {
+	color: rgb(0, 51, 102); font-size: 2em; font-weight: bold;
+}
+.top25 a {
+	color: rgb(0, 51, 102); font-size: 1.6em; font-weight: bold;
+}
+.top50 a {
+	color: rgb(0, 51, 102); font-size: 1.4em;
+}
+.top100 a {
+	color: rgb(0, 51, 102); font-size: 1.2em;
+}
+.heatmap {
+	list-style: none; margin: 0px auto; width: 95%;
+}
+.heatmap a {
+	text-decoration: none;
+}
+.heatmap a:hover {
+	text-decoration: underline;
+}
+.heatmap li {
+	display: inline;
+}
+.minitab {
+	font: bold 9px/normal Verdana, sans-serif; padding: 3px 0px 3px 8px; =
+text-decoration: none; margin-top: 1px; margin-bottom: 0px; margin-left: =
+0px; border-bottom-color: rgb(60, 120, 181); border-bottom-width: 1px; =
+border-bottom-style: solid; float: none; font-size-adjust: none; =
+font-stretch: normal;
+}
+.selectedminitab {
+	background: white; border-width: 1px; border-style: solid; =
+border-color: rgb(60, 120, 181) rgb(60, 120, 181) white; padding: 3px =
+0.5em; color: rgb(0, 0, 0); text-decoration: none; margin-top: 1px; =
+margin-left: 3px;
+}
+.unselectedminitab {
+	background: rgb(60, 120, 181); border-width: 1px 1px medium; =
+border-style: solid solid none; border-color: rgb(60, 120, 181) rgb(60, =
+120, 181) currentColor; padding: 3px 0.5em; color: rgb(255, 255, 255); =
+text-decoration: none; margin-top: 1px; margin-left: 3px;
+}
+a.unselectedminitab:hover {
+	background: rgb(0, 51, 102); border-color: rgb(0, 51, 102); color: =
+rgb(255, 255, 255);
+}
+a.unselectedminitab:link {
+	color: white;
+}
+a.unselectedminitab:visited {
+	color: white;
+}
+a.selectedminitab:link {
+	color: black;
+}
+a.selectedminitab:visited {
+	color: black;
+}
+.linkerror {
+	background-color: rgb(255, 204, 204);
+}
+a.labelOperationLink:link {
+	text-decoration: underline;
+}
+a.labelOperationLink:active {
+	text-decoration: underline;
+}
+a.labelOperationLink:visited {
+	text-decoration: underline;
+}
+a.labelOperationLink:hover {
+	text-decoration: underline;
+}
+a.newLabel:link {
+	background-color: rgb(221, 255, 221);
+}
+a.newLabel:active {
+	background-color: rgb(221, 255, 221);
+}
+a.newLabel:visited {
+	background-color: rgb(221, 255, 221);
+}
+a.newLabel:hover {
+	background-color: rgb(221, 255, 221);
+}
+ul.square {
+	list-style-type: square;
+}
+.inline-control-link a:link {
+	text-decoration: none;
+}
+.inline-control-link a:active {
+	text-decoration: none;
+}
+.inline-control-link a:visited {
+	text-decoration: none;
+}
+.inline-control-link a:hover {
+	text-decoration: none;
+}
+.inline-control-link {
+	padding: 2px; text-transform: uppercase; font-size: 9px; =
+text-decoration: none; cursor: pointer;
+}
+div.auto_complete {
+	background: rgb(255, 255, 255); width: 350px;
+}
+div.auto_complete ul {
+	margin: 0px; padding: 0px; border: 1px solid rgb(136, 136, 136); width: =
+100%; list-style-type: none;
+}
+div.auto_complete ul li {
+	margin: 0px; padding: 3px;
+}
+div.auto_complete ul li.selected {
+	background-color: rgb(255, 255, 187);
+}
+div.auto_complete ul strong.highlight {
+	margin: 0px; padding: 0px; color: rgb(136, 0, 0);
+}
+.toogleFormDiv {
+	padding: 5px; border: 1px solid rgb(167, 166, 170); margin-top: 5px; =
+background-color: white;
+}
+.toogleInfoDiv {
+	padding: 5px; border: 1px solid rgb(167, 166, 170); margin-top: 10px; =
+display: none; background-color: white;
+}
+.inputSection {
+	margin-bottom: 20px;
+}
+#editBox {
+	border: 1px solid lightgray; background-color: rgb(240, 240, 240);
+}
+.leftnav li a {
+	margin: 0px; padding: 2px 2px 2px 5px; color: white; text-decoration: =
+none; border-top-color: rgb(60, 120, 181); border-top-width: 1px; =
+border-top-style: solid; display: block; background-color: rgb(60, 120, =
+181);
+}
+.leftnav li a:active {
+	color: white;
+}
+.leftnav li a:visited {
+	color: white;
+}
+.leftnav li a:hover {
+	color: white; background-color: rgb(0, 51, 102);
+}
+p:first-child {
+	margin-top: 0px;
+}
+ul:first-child {
+	margin-top: 0px;
+}
+ol:first-child {
+	margin-top: 0px;
+}
+dl:first-child {
+	margin-top: 0px;
+}
+h1:first-child {
+	margin-top: 0px;
+}
+h2:first-child {
+	margin-top: 0px;
+}
+h3:first-child {
+	margin-top: 0px;
+}
+h4:first-child {
+	margin-top: 0px;
+}
+h5:first-child {
+	margin-top: 0px;
+}
+h6:first-child {
+	margin-top: 0px;
+}
+blockquote:first-child {
+	margin-top: 0px;
+}
+pre:first-child {
+	margin-top: 0px;
+}
+form:first-child.aui {
+	margin-top: 0px;
+}
+table:first-child.aui {
+	margin-top: 0px;
+}
+:first-child.aui-tabs {
+	margin-top: 0px;
+}
+:first-child.aui-panel {
+	margin-top: 0px;
+}
+:first-child.aui-group {
+	margin-top: 0px;
+}
+.aui-message {
+	background: rgb(252, 252, 252); margin: 10px 0px 0px; padding: 10px =
+10px 10px 36px; border-radius: 5px; border: 1px solid rgb(204, 204, =
+204); color: rgb(51, 51, 51); position: relative; -moz-border-radius: =
+5px; -webkit-border-radius: 5px;
+}
+.shadowed.aui-message {
+	box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;
+}
+.aui-popup .closeable.aui-message {
+	z-index: 4000;
+}
+.aui-dialog .closeable.aui-message {
+	z-index: 4000;
+}
+.error.aui-message {
+	background: rgb(208, 68, 55); border-color: rgb(208, 68, 55); color: =
+rgb(255, 255, 255);
+}
+.warning.aui-message {
+	background: rgb(255, 253, 246); border-color: rgb(255, 234, 174);
+}
+.info.aui-message {
+	background: rgb(252, 252, 252); border-color: rgb(140, 159, 178);
+}
+.success.aui-message {
+	background: rgb(243, 249, 244); border-color: rgb(145, 200, 156);
+}
+.hint.aui-message {
+	background: rgb(252, 252, 252); border-color: rgb(170, 184, 198);
+}
+.error.aui-message a {
+	color: rgb(255, 255, 255); text-decoration: none; border-bottom-color: =
+rgb(255, 255, 255); border-bottom-width: 1px; border-bottom-style: =
+solid;
+}
+.aui-message p.title {
+	font-weight: bold;
+}
+.aui-message p.title strong {
+	font-weight: inherit;
+}
+.aui-message .aui-icon {
+	left: 10px; top: 12px; position: absolute;
+}
+.closeable.aui-message {
+	padding-right: 36px;
+}
+.closeable.aui-message .icon-close {
+	left: auto; top: 10px; right: 10px; cursor: pointer;
+}
+.aui-message .svg-icon {
+	left: 10px; top: 10px; position: absolute;
+}
+.closeable.aui-message .close.svg-icon {
+	left: auto; top: 10px; right: 10px; position: absolute; cursor: =
+pointer;
+}
+#header .aui-message {
+	border-width: 2px; margin: 0px; border-radius: 0px; border-right-color: =
+currentColor; border-bottom-color: currentColor; border-left-color: =
+currentColor; border-right-style: none; border-bottom-style: none; =
+border-left-style: none; -moz-border-radius: 0; -webkit-border-radius: =
+0;
+}
+#footer .aui-message {
+	text-align: left; margin-right: 20px; margin-left: 20px;
+}
+.aui-message p {
+	margin-bottom: 0px;
+}
+.aui-icon {
+	margin: 0px; padding: 0px; border: currentColor; width: 16px; height: =
+16px; text-align: left; text-indent: -999em; vertical-align: =
+text-bottom; display: inline-block; background-repeat: no-repeat;
+}
+.icon-move {
+	background-repeat: no-repeat;
+}
+.icon-move-d {
+	background-repeat: no-repeat;
+}
+.icon-dropdown {
+	background-repeat: no-repeat;
+}
+.icon-dropdown-d {
+	background-repeat: no-repeat;
+}
+.icon-dropdown-active {
+	background-repeat: no-repeat;
+}
+.icon-dropdown-active-d {
+	background-repeat: no-repeat;
+}
+.icon-minimize {
+	background-repeat: no-repeat;
+}
+.icon-minimize-d {
+	background-repeat: no-repeat;
+}
+.icon-maximize {
+	background-repeat: no-repeat;
+}
+.icon-maximize-d {
+	background-repeat: no-repeat;
+}
+.icon-move.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-move-d.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-dropdown.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-dropdown-d.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-dropdown-active.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-dropdown-active-d.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-minimize.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-minimize-d.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-maximize.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-maximize-d.aui-icon {
+	width: 13px; height: 13px; vertical-align: baseline;
+}
+.icon-move {
+	cursor: move; background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AAPUlEQVR42rWRMQoAMAjE+v9P29syBeFKs50YVDzGBKmbACKZACIV69G0ZqQJqwQJBcWk8iY=
+D6eufTHha7wLFyOcZBIC2HgAAAABJRU5ErkJggg=3D=3D");
+}
+.icon-move-d {
+	cursor: move; background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANAQMAAABIJXY/AA=
+AABlBMVEUAAABtbW0GOOmzAAAAAXRSTlMAQObYZgAAACZJREFUCFtjYGJgYGdg4G9gADKUFBi=
+SDBj+/wCRQDYTWBwoy8QAAF4LBNTKhGdbAAAAAElFTkSuQmCC");
+}
+.icon-dropdown {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AANUlEQVQoz2NgIBH8//8fziAKwDX9h2slypb/A6gJn1/w2oRLA0HnYdMwCAKCaE1kpQhy0h4=
+AvZXuEh7/K88AAAAASUVORK5CYII=3D");
+}
+.icon-dropdown-d {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AAOElEQVQoz2NgIBH8//8fwsjNzf1PDIZrgnGIASC1A6gJn1/w2oRLA0HnYdMwCAKCaE1kpQh=
+y0h4AVz6Yhl8Qyr8AAAAASUVORK5CYII=3D");
+}
+.icon-dropdown-active {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AAMElEQVQoz2NgIBH8//8fziAKwDX9Jx0MlCY8nsdvEwENuJ2HR8P/oRB6ZKUIctIeACdj9Rn=
+XT1HMAAAAAElFTkSuQmCC");
+}
+.icon-dropdown-active-d {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AANklEQVQokWNgIBH8//8fwsjNzf1PDIZrIlYDDA+gJlyeJ2gTPg14nYdLwwAHBNGayEoR5KQ=
+9AH2/LqGCzCmZAAAAAElFTkSuQmCC");
+}
+.icon-minimize {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AAJ0lEQVQoz2NgIBH8//8fziAKwDX9Jx3QWxMJgTCqCUUTWSmCnLQHAMrBNdnApUZIAAAAAEl=
+FTkSuQmCC");
+}
+.icon-minimize-d {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AALElEQVQoz2NgIBH8//8fwsjNzf1PDIZrIlYDDA+AJmIDYVQTuiayUgQ5aQ8AKzrBcoqP7AU=
+AAAAASUVORK5CYII=3D");
+}
+.icon-maximize {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AAMklEQVR42r3LMQoAAAhCUe9/aVulIZSivyk8pJFsh9EdwtAO0egOYUhxhHR/I6OO7BQVFiA=
+d8RJdftsAAAAASUVORK5CYII=3D");
+}
+.icon-maximize-d {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AA=
+AAOElEQVQokWNgIBH8//8fVSA3N/c/IUw9TficRpkmYpxEPU2EnIQREMRoQuYPgCZiAwKuiVQ=
+A0gQAtaqzzogsN8sAAAAASUVORK5CYII=3D");
+}
+form.aui .icon-date {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAA=
+AAElBMVEVwcHA7c6/e297////d3d3QRDeta2PvAAAANElEQVR42o3NMQoAMAgDwFrj/7+sNB2=
+EOHhkCgaPMrqkxcAdLVOBLwrQLuJFCp3sv9BqIhIVkgJPMGXvIwAAAABJRU5ErkJggg=3D=3D=
+");
+}
+.aui-icon-date {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAA=
+AAElBMVEVwcHA7c6/e297////d3d3QRDeta2PvAAAANElEQVR42o3NMQoAMAgDwFrj/7+sNB2=
+EOHhkCgaPMrqkxcAdLVOBLwrQLuJFCp3sv9BqIhIVkgJPMGXvIwAAAABJRU5ErkJggg=3D=3D=
+");
+}
+form.aui .icon-range {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAA=
+AAD1BMVEVwcHA7c6/d3d3////QRDegIdLtAAAANUlEQVR42oWOsQkAMBAC8/r7zxyIjaCQw+p=
+Q8CQjIFIUSFiaANZ4jbU0saJOQIbwiZ7+jwUX+3ECESZGRrwAAAAASUVORK5CYII=3D");
+}
+.aui-icon-range {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAA=
+AAD1BMVEVwcHA7c6/d3d3////QRDegIdLtAAAANUlEQVR42oWOsQkAMBAC8/r7zxyIjaCQw+p=
+Q8CQjIFIUSFiaANZ4jbU0saJOQIbwiZ7+jwUX+3ECESZGRrwAAAAASUVORK5CYII=3D");
+}
+form.aui .icon-required {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAXklEQVR42u3MsQ2AIBSEYZnHAVjACZzkNUxA6yCOY2HhNnoXn6EggVxjRfHnQh75pmOJX/e=
+7JTPrxo8JRQK+SQUyugj4ZhUIaCPgG1RgRida0c63ClQpQOs4gAH8Bzy5KFqGk8PBaQAAAABJ=
+RU5ErkJggg=3D=3D");
+}
+.aui-icon-required {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAXklEQVR42u3MsQ2AIBSEYZnHAVjACZzkNUxA6yCOY2HhNnoXn6EggVxjRfHnQh75pmOJX/e=
+7JTPrxo8JRQK+SQUyugj4ZhUIaCPgG1RgRida0c63ClQpQOs4gAH8Bzy5KFqGk8PBaQAAAABJ=
+RU5ErkJggg=3D=3D");
+}
+form.aui .icon-users {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAtUlEQVR42t2RMQrCQBBF9xparK138ATJaRYEPVWwj0o6m1zAJl1IOgvXJtX4ix9YZsKK2Fk=
+8kn18HmHjQgg/sSh3+5MHNYh8+m8DZyAJTS5QgIEUDEQVmOAXt44HIUP+C+xWy5EBz8iLzw28=
+3TJQ8tDz3YmIAd5sc5e4BlcwgQtYffoLWzIHKnUHFbzdMnAAQo4MPFUgwtstA2MiHwyIBt5uG=
+RBFLiCKfwncE9Ex0KrAjQGzfQN6A+Z5DlYHhgAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-icon-users {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAtUlEQVR42t2RMQrCQBBF9xparK138ATJaRYEPVWwj0o6m1zAJl1IOgvXJtX4ix9YZsKK2Fk=
+8kn18HmHjQgg/sSh3+5MHNYh8+m8DZyAJTS5QgIEUDEQVmOAXt44HIUP+C+xWy5EBz8iLzw28=
+3TJQ8tDz3YmIAd5sc5e4BlcwgQtYffoLWzIHKnUHFbzdMnAAQo4MPFUgwtstA2MiHwyIBt5uG=
+RBFLiCKfwncE9Ex0KrAjQGzfQN6A+Z5DlYHhgAAAABJRU5ErkJggg=3D=3D");
+}
+form.aui .icon-help {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+ABOklEQVR42mXTv0rDUBTH8atDqYPi4mDRya3pAziIz+ETCDpoVt9BbKFRlFqfQGfBCukkODg=
+IpREcddeiiCbR+A38ApfT4RNy/tzDzU3iwjC0mjjCGN8yVq5p+/1gDifIkWGIrgyVyxXX7IAa=
+BihwgQac0UBfPTeo+QO6Kux7zZeYIMU11lTbVW9UDQiQa7qTe7xjG1t4wTNmVe9pTVAGbWRYV=
+nEJBQ7g5FC5FTj1pmg7nXAM51lHXfcbeMNDtQOJkTi9pjMlrU184dEerNb8uPLiDbAGeMWiYj=
+vgo7xJvEew7nBl8xJjNHWIxqrdujnEThm0kKNnmuYxkYUqb15jq0pEKLAHJ3UkUoeTHfzh2H7=
+KtxrSN9uegVPuXD0DrZn6mU7xiwwxuhIjUy2yP5MVoIMnpPjESLnA9v8DHHysLnlPp3QAAAAA=
+SUVORK5CYII=3D");
+}
+.aui-icon-help {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+ABOklEQVR42mXTv0rDUBTH8atDqYPi4mDRya3pAziIz+ETCDpoVt9BbKFRlFqfQGfBCukkODg=
+IpREcddeiiCbR+A38ApfT4RNy/tzDzU3iwjC0mjjCGN8yVq5p+/1gDifIkWGIrgyVyxXX7IAa=
+BihwgQac0UBfPTeo+QO6Kux7zZeYIMU11lTbVW9UDQiQa7qTe7xjG1t4wTNmVe9pTVAGbWRYV=
+nEJBQ7g5FC5FTj1pmg7nXAM51lHXfcbeMNDtQOJkTi9pjMlrU184dEerNb8uPLiDbAGeMWiYj=
+vgo7xJvEew7nBl8xJjNHWIxqrdujnEThm0kKNnmuYxkYUqb15jq0pEKLAHJ3UkUoeTHfzh2H7=
+KtxrSN9uegVPuXD0DrZn6mU7xiwwxuhIjUy2yP5MVoIMnpPjESLnA9v8DHHysLnlPp3QAAAAA=
+SUVORK5CYII=3D");
+}
+form.aui .icon-inline-help {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+ABOklEQVR42mXTv0rDUBTH8atDqYPi4mDRya3pAziIz+ETCDpoVt9BbKFRlFqfQGfBCukkODg=
+IpREcddeiiCbR+A38ApfT4RNy/tzDzU3iwjC0mjjCGN8yVq5p+/1gDifIkWGIrgyVyxXX7IAa=
+BihwgQac0UBfPTeo+QO6Kux7zZeYIMU11lTbVW9UDQiQa7qTe7xjG1t4wTNmVe9pTVAGbWRYV=
+nEJBQ7g5FC5FTj1pmg7nXAM51lHXfcbeMNDtQOJkTi9pjMlrU184dEerNb8uPLiDbAGeMWiYj=
+vgo7xJvEew7nBl8xJjNHWIxqrdujnEThm0kKNnmuYxkYUqb15jq0pEKLAHJ3UkUoeTHfzh2H7=
+KtxrSN9uegVPuXD0DrZn6mU7xiwwxuhIjUy2yP5MVoIMnpPjESLnA9v8DHHysLnlPp3QAAAAA=
+SUVORK5CYII=3D");
+}
+.aui-icon-inline-help {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+ABOklEQVR42mXTv0rDUBTH8atDqYPi4mDRya3pAziIz+ETCDpoVt9BbKFRlFqfQGfBCukkODg=
+IpREcddeiiCbR+A38ApfT4RNy/tzDzU3iwjC0mjjCGN8yVq5p+/1gDifIkWGIrgyVyxXX7IAa=
+BihwgQac0UBfPTeo+QO6Kux7zZeYIMU11lTbVW9UDQiQa7qTe7xjG1t4wTNmVe9pTVAGbWRYV=
+nEJBQ7g5FC5FTj1pmg7nXAM51lHXfcbeMNDtQOJkTi9pjMlrU184dEerNb8uPLiDbAGeMWiYj=
+vgo7xJvEew7nBl8xJjNHWIxqrdujnEThm0kKNnmuYxkYUqb15jq0pEKLAHJ3UkUoeTHfzh2H7=
+KtxrSN9uegVPuXD0DrZn6mU7xiwwxuhIjUy2yP5MVoIMnpPjESLnA9v8DHHysLnlPp3QAAAAA=
+SUVORK5CYII=3D");
+}
+.aui-message .icon-generic {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA00lEQVR42qWTUQqCQBCGe9KCuoiKPqj38iTpg4KeJbqFZHSNesgw6l/4F4ZBlrSFD5z/3xl=
+md8eNXkVRBOAIBvAkF2qB3KsTPVCDN/jMQa8Fu7nkk9jYgRxsSU7N+mfgyQINjRtIrG4TRByC=
+K/VaihPF2Gi6gNIS6hMIjVDatjc/LnGc0gQDg4y+swPqGb3BBCMDf0EBn964tsCB3n3tEVJ6v=
+eMSnQU6epUJooXPGItnjFyDpJcepMY1yi1Iqe/53epR/vNncrdZsdUXeICeWqT3fwEp0i7HcW=
+SJEgAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-icon-generic {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA00lEQVR42qWTUQqCQBCGe9KCuoiKPqj38iTpg4KeJbqFZHSNesgw6l/4F4ZBlrSFD5z/3xl=
+md8eNXkVRBOAIBvAkF2qB3KsTPVCDN/jMQa8Fu7nkk9jYgRxsSU7N+mfgyQINjRtIrG4TRByC=
+K/VaihPF2Gi6gNIS6hMIjVDatjc/LnGc0gQDg4y+swPqGb3BBCMDf0EBn964tsCB3n3tEVJ6v=
+eMSnQU6epUJooXPGItnjFyDpJcepMY1yi1Iqe/53epR/vNncrdZsdUXeICeWqT3fwEp0i7HcW=
+SJEgAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-message .icon-error {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAzUlEQVR42q2T3QqCQBBGvcqCehETvVBfM71QsGeJ3kIyeo260DC2b+CThoVdsFo44JzdGfZ=
+nDIwxNhE4gB4M5EIX2et1sAI1eBnH4FwLNnOeTj6phUdQgDUp6OZxlhxdoOHEDaSAnuMT78GV=
+rhY3y4kyEekqQFK6SXJFlGrbgbcAUccpJegZ5AsK5PS9BCODcEGBkH78tsCO/u4+gp+MOd2vl=
+1hJEC98xkQ9Y+xvJOJopMbXyi3I6Lf8bu1W/uvPZG+z4laf4AE6uthe/wbkrGRlM25n9wAAAA=
+BJRU5ErkJggg=3D=3D");
+}
+.aui-icon-error {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA00lEQVR42qWTXQqCUBCFe+oHaiMm+qDSBlpf+qBga4n20INktI16yDDqDJwLwyAXzIEPnDM=
+/zL13nFm77HcBOIAWvMiVWqBzbeEclOADvkMwVoPVUPFJJR5BBpYko+biZ6nRDSoG7iB2uitQ=
+/hbcqJda7ClGotkGRoup91IrQu7GlgRvA5o6Ti5OSycd0SBlrBWno7MY0WDBWPdvgw1jD98Rf=
+DuTsKaZeomFOOHIZ4zUM4a+RbJmF6nyrXINEuprftd2lSf+TP4xC476Bk/QUAtt/g8cmyvPgM=
+zXPwAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-message .icon-hint {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA1klEQVR42qWTUQqCQBCGfdKCuogu+qBeoot0kl7TBwU9S3QLyega9ZBh1L/wLyyDLGkLHzj=
+/vzPM7o6eXLv9IQRH0IMnuVAL7b0y0QcVeIPPFPQasJ5KPlkbW5CDFcmpGf8MfLtATeMGEqOb=
+BCuOwJV6ZYsjxVhrsoDQEuojiLRQmLa9H5d1nEIHPYOMvrMD6hm9XgcDg2BGgYDesLTAlt596=
+RFSep3jEp0FWnqlDtTMZ4ytZ1SuQZJLDlLtGuUGpNQ3/G7kKP/5M7nbLNnqCzxAR03J/V+HSh=
+9XtOsatQAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-icon-hint {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA1klEQVR42qWTUQqCQBCGfdKCuogu+qBeoot0kl7TBwU9S3QLyega9ZBh1L/wLyyDLGkLHzj=
+/vzPM7o6eXLv9IQRH0IMnuVAL7b0y0QcVeIPPFPQasJ5KPlkbW5CDFcmpGf8MfLtATeMGEqOb=
+BCuOwJV6ZYsjxVhrsoDQEuojiLRQmLa9H5d1nEIHPYOMvrMD6hm9XgcDg2BGgYDesLTAlt596=
+RFSep3jEp0FWnqlDtTMZ4ytZ1SuQZJLDlLtGuUGpNQ3/G7kKP/5M7nbLNnqCzxAR03J/V+HSh=
+9XtOsatQAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-message .icon-info {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA1klEQVR42qWTUQqCQBCGfdKCuogu+qBeoot0kl7TBwU9S3QLyega9ZBh1L/wLyyDLGkLHzj=
+/vzPM7o6eXLv9IQRH0IMnuVAL7b0y0QcVeIPPFPQasJ5KPlkbW5CDFcmpGf8MfLtATeMGEqOb=
+BCuOwJV6ZYsjxVhrsoDQEuojiLRQmLa9H5d1nEIHPYOMvrMD6hm9XgcDg2BGgYDesLTAlt596=
+RFSep3jEp0FWnqlDtTMZ4ytZ1SuQZJLDlLtGuUGpNQ3/G7kKP/5M7nbLNnqCzxAR03J/V+HSh=
+9XtOsatQAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-icon-info {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA1klEQVR42qWTUQqCQBCGfdKCuogu+qBeoot0kl7TBwU9S3QLyega9ZBh1L/wLyyDLGkLHzj=
+/vzPM7o6eXLv9IQRH0IMnuVAL7b0y0QcVeIPPFPQasJ5KPlkbW5CDFcmpGf8MfLtATeMGEqOb=
+BCuOwJV6ZYsjxVhrsoDQEuojiLRQmLa9H5d1nEIHPYOMvrMD6hm9XgcDg2BGgYDesLTAlt596=
+RFSep3jEp0FWnqlDtTMZ4ytZ1SuQZJLDlLtGuUGpNQ3/G7kKP/5M7nbLNnqCzxAR03J/V+HSh=
+9XtOsatQAAAABJRU5ErkJggg=3D=3D");
+}
+.aui-message .icon-success {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA9klEQVR42qWTPQrCQBSErfwBhRQewDoGFYyHtDEWCSSVR8gBRDxCGjFi4xEstFBR4jyYYnm=
+uK5LAB/vmzexuNpuGfvrzwAcLUIIb2VPzTa8ONkEMXqCywV4KOrbw2jBmYAbaZEatIhvJmBMk=
+bBzB2LHLITjQG5vik+Ko8eORBeh9SlaEiELmCHmgACvWGTORFCWL8Et4IGF6TtRC1qUUdxYtN=
+iOB4wk4s18Aj3qL2v1jAiOQ28L09Khf1CuoVS1heqbs7ayHyEm2INdhdYhLKYI/P+PI+IxBnY=
+uUuK5yCqbUuxyn+irX/Jnc21xyqw9wBTtqgfa/Af067eG0xhemAAAAAElFTkSuQmCC");
+}
+.aui-icon-success {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AA9klEQVR42qWTPQrCQBSErfwBhRQewDoGFYyHtDEWCSSVR8gBRDxCGjFi4xEstFBR4jyYYnm=
+uK5LAB/vmzexuNpuGfvrzwAcLUIIb2VPzTa8ONkEMXqCywV4KOrbw2jBmYAbaZEatIhvJmBMk=
+bBzB2LHLITjQG5vik+Ko8eORBeh9SlaEiELmCHmgACvWGTORFCWL8Et4IGF6TtRC1qUUdxYtN=
+iOB4wk4s18Aj3qL2v1jAiOQ28L09Khf1CuoVS1heqbs7ayHyEm2INdhdYhLKYI/P+PI+IxBnY=
+uUuK5yCqbUuxyn+irX/Jnc21xyqw9wBTtqgfa/Af067eG0xhemAAAAAElFTkSuQmCC");
+}
+.aui-message .icon-warning {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+ABA0lEQVR42p2QP0tCURiH7zdQRA3u4OJUiyDY4CDtTuEXuXs0JEQ4uDk5C0EuKoEu+SWcg5b=
+aLCS7tNTx98IzyMWjXoeHe95/z3vODdzi2kdTvIo30fL1+YbLIhYOfsV5GsFAOL59zsNjBRfi=
+j60lEXKbf1E5RvDExl4URYGwXJfc6JCgwqZYhBp2hs5n4odadZ9gzKYu2x1YrUPt2SeosWEti=
+jsEBfGN5HKXYErxweKkAMk9PbOkoE5hJXI+AbUVvfVtwZzkHTECAGptel8cgisSnyJDk+8GRl=
+Z8MdOwxITghoa9ArhlZmzB+/abDjwh+c8+LBgRnMLEBHnxKJYpBpfMFDbGjWcGPFD11gAAAAB=
+JRU5ErkJggg=3D=3D");
+}
+.aui-icon-warning {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+ABA0lEQVR42p2QP0tCURiH7zdQRA3u4OJUiyDY4CDtTuEXuXs0JEQ4uDk5C0EuKoEu+SWcg5b=
+aLCS7tNTx98IzyMWjXoeHe95/z3vODdzi2kdTvIo30fL1+YbLIhYOfsV5GsFAOL59zsNjBRfi=
+j60lEXKbf1E5RvDExl4URYGwXJfc6JCgwqZYhBp2hs5n4odadZ9gzKYu2x1YrUPt2SeosWEti=
+jsEBfGN5HKXYErxweKkAMk9PbOkoE5hJXI+AbUVvfVtwZzkHTECAGptel8cgisSnyJDk+8GRl=
+Z8MdOwxITghoa9ArhlZmzB+/abDjwh+c8+LBgRnMLEBHnxKJYpBpfMFDbGjWcGPFD11gAAAAB=
+JRU5ErkJggg=3D=3D");
+}
+.aui-message .icon-close {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAUElEQVR42sWTQQoAIAgEe2ef6smW1wb0MEHBXtp1QLMREUpvAefMFIKFf5srBUjhI4AQPAJ=
+KCO/YQgdhMQGE9MUe4FvwQ/TP6BfJr/L/37gBAXQVT6UvFQUAAAAASUVORK5CYII=3D");
+}
+.aui-icon-close {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAUElEQVR42sWTQQoAIAgEe2ef6smW1wb0MEHBXtp1QLMREUpvAefMFIKFf5srBUjhI4AQPAJ=
+KCO/YQgdhMQGE9MUe4FvwQ/TP6BfJr/L/37gBAXQVT6UvFQUAAAAASUVORK5CYII=3D");
+}
+.aui-message .icon-close-inverted {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAUklEQVR42sWTQQoAIAgE/f8r+qkl0WlwLyu0IB1WR0qLzLRiDnBU56oICj4A13wCBL4AEEK=
+PgDaxAwMguqFYAQhhsQ8Yu4L/iP4Y/UXyV/n/b9xWqa6H7L0OrwAAAABJRU5ErkJggg=3D=3D=
+");
+}
+.error.aui-message .icon-close {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAUklEQVR42sWTQQoAIAgE/f8r+qkl0WlwLyu0IB1WR0qLzLRiDnBU56oICj4A13wCBL4AEEK=
+PgDaxAwMguqFYAQhhsQ8Yu4L/iP4Y/UXyV/n/b9xWqa6H7L0OrwAAAABJRU5ErkJggg=3D=3D=
+");
+}
+.aui-icon-close-inverted {
+	background-image: =
+url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAA=
+AAUklEQVR42sWTQQoAIAgE/f8r+qkl0WlwLyu0IB1WR0qLzLRiDnBU56oICj4A13wCBL4AEEK=
+PgDaxAwMguqFYAQhhsQ8Yu4L/iP4Y/UXyV/n/b9xWqa6H7L0OrwAAAABJRU5ErkJggg=3D=3D=
+");
+}
+.aui-icon-dropdown {
+	border-width: 4px; border-style: solid; border-color: rgb(51, 51, 51) =
+transparent transparent; width: 0px; height: 0px; text-align: left; =
+text-indent: -999em; overflow: hidden; vertical-align: baseline; =
+display: inline-block; position: relative; content: "";
+}
+.aui-icon-wait {
+	background-image: =
+url("data:image/gif;base64,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
+Ow=3D=3D");
+}
+.aui-dropdown2 .active .aui-icon-wait {
+	background-image: =
+url("data:image/gif;base64,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
+AAAAAAAAAAA=3D=3D");
+}
+.aui-button-primary .aui-icon-wait {
+	background-image: =
+url("data:image/gif;base64,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
+AAAAAAAAAAA=3D=3D");
+}
+[aria-disabled=3D'true'].aui-button-primary .aui-icon-wait {
+	background-image: =
+url("data:image/gif;base64,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
+AAAAAAAAAAA=3D=3D");
+}
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: text/css;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/highlighter/styles/shCoreCXF.css
+
+.syntaxhighlighter a {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter div {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter code {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter table {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter table td {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter table tr {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter table tbody {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter table thead {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter table caption {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter textarea {
+	margin: 0px !important; padding: 0px !important; outline: 0px =
+!important; border: 0px currentColor !important; left: auto !important; =
+top: auto !important; width: auto !important; height: auto !important; =
+text-align: left !important; right: auto !important; bottom: auto =
+!important; line-height: 1.1em !important; overflow: visible !important; =
+font-family: Monospace !important; font-size: 1em !important; =
+font-style: normal !important; font-weight: normal !important; =
+vertical-align: baseline !important; float: none !important; position: =
+static !important; min-height: auto !important; box-sizing: content-box =
+!important; -moz-border-radius: 0 0 0 0; -webkit-border-radius: 0 0 0 0;
+}
+.syntaxhighlighter {
+	margin: 1em 0px !important; width: 100% !important; overflow: auto =
+!important; font-size: 1em !important; position: relative !important;
+}
+.source.syntaxhighlighter {
+	overflow: hidden !important;
+}
+.syntaxhighlighter .bold {
+	font-weight: bold !important;
+}
+.syntaxhighlighter .italic {
+	font-style: italic !important;
+}
+.syntaxhighlighter .line {
+	white-space: pre !important;
+}
+.syntaxhighlighter table {
+	width: 100% !important;
+}
+.syntaxhighlighter table caption {
+	padding: 0.5em 0px 0.5em 1em !important; text-align: left !important;
+}
+.syntaxhighlighter table td.code {
+	width: 100% !important;
+}
+.syntaxhighlighter table td.code .container {
+	position: relative !important;
+}
+.syntaxhighlighter table td.code .container textarea {
+	background: white !important; border: currentColor !important; left: =
+0px !important; top: 0px !important; width: 100% !important; height: =
+100% !important; overflow: hidden !important; padding-left: 1em =
+!important; white-space: pre !important; position: absolute !important; =
+box-sizing: border-box !important;
+}
+.syntaxhighlighter table td.gutter .line {
+	padding: 0px 0.5em 0px 1em !important; text-align: right !important;
+}
+.syntaxhighlighter table td.code .line {
+	padding: 0px 1em !important;
+}
+.nogutter.syntaxhighlighter td.code .container textarea {
+	padding-left: 0em !important;
+}
+.nogutter.syntaxhighlighter td.code .line {
+	padding-left: 0em !important;
+}
+.show.syntaxhighlighter {
+	display: block !important;
+}
+.collapsed.syntaxhighlighter table {
+	display: none !important;
+}
+.collapsed.syntaxhighlighter .toolbar {
+	padding: 0.1em 0.8em 0em !important; width: auto !important; height: =
+auto !important; font-size: 1em !important; position: static !important;
+}
+.collapsed.syntaxhighlighter .toolbar span {
+	margin-right: 1em !important; display: inline !important;
+}
+.collapsed.syntaxhighlighter .toolbar span a {
+	padding: 0px !important; display: none !important;
+}
+.collapsed.syntaxhighlighter .toolbar span a.expandSource {
+	display: inline !important;
+}
+.syntaxhighlighter .toolbar {
+	top: 1px !important; width: 11px !important; height: 11px !important; =
+right: 1px !important; font-size: 10px !important; position: absolute =
+!important; z-index: 10 !important;
+}
+.syntaxhighlighter .toolbar span.title {
+	display: inline !important;
+}
+.syntaxhighlighter .toolbar a {
+	text-align: center !important; padding-top: 1px !important; =
+text-decoration: none !important; display: block !important;
+}
+.syntaxhighlighter .toolbar a.expandSource {
+	display: none !important;
+}
+.ie.syntaxhighlighter {
+	padding: 1px 0px !important; font-size: 0.9em !important;
+}
+.ie.syntaxhighlighter .toolbar {
+	line-height: 8px !important;
+}
+.ie.syntaxhighlighter .toolbar a {
+	padding-top: 0px !important;
+}
+.printing.syntaxhighlighter .alt1.line .content {
+=09
+}
+.printing.syntaxhighlighter .alt2.line .content {
+=09
+}
+.printing.syntaxhighlighter .highlighted.line .number {
+=09
+}
+.printing.syntaxhighlighter .alt1.highlighted.line .content {
+=09
+}
+.printing.syntaxhighlighter .alt2.highlighted.line .content {
+=09
+}
+.printing.syntaxhighlighter .line .number {
+	color: rgb(187, 187, 187) !important;
+}
+.printing.syntaxhighlighter .line .content {
+	color: black !important;
+}
+.printing.syntaxhighlighter .toolbar {
+	display: none !important;
+}
+.printing.syntaxhighlighter a {
+	text-decoration: none !important;
+}
+.printing.syntaxhighlighter .plain {
+	color: black !important;
+}
+.printing.syntaxhighlighter .plain a {
+	color: black !important;
+}
+.printing.syntaxhighlighter .comments {
+	color: rgb(0, 130, 0) !important;
+}
+.printing.syntaxhighlighter .comments a {
+	color: rgb(0, 130, 0) !important;
+}
+.printing.syntaxhighlighter .string {
+	color: blue !important;
+}
+.printing.syntaxhighlighter .string a {
+	color: blue !important;
+}
+.printing.syntaxhighlighter .keyword {
+	color: rgb(0, 102, 153) !important; font-weight: bold !important;
+}
+.printing.syntaxhighlighter .preprocessor {
+	color: gray !important;
+}
+.printing.syntaxhighlighter .variable {
+	color: rgb(170, 119, 0) !important;
+}
+.printing.syntaxhighlighter .value {
+	color: rgb(0, 153, 0) !important;
+}
+.printing.syntaxhighlighter .functions {
+	color: rgb(255, 20, 147) !important;
+}
+.printing.syntaxhighlighter .constants {
+	color: rgb(0, 102, 204) !important;
+}
+.printing.syntaxhighlighter .script {
+	font-weight: bold !important;
+}
+.printing.syntaxhighlighter .color1 {
+	color: gray !important;
+}
+.printing.syntaxhighlighter .color1 a {
+	color: gray !important;
+}
+.printing.syntaxhighlighter .color2 {
+	color: rgb(255, 20, 147) !important;
+}
+.printing.syntaxhighlighter .color2 a {
+	color: rgb(255, 20, 147) !important;
+}
+.printing.syntaxhighlighter .color3 {
+	color: red !important;
+}
+.printing.syntaxhighlighter .color3 a {
+	color: red !important;
+}
+.printing.syntaxhighlighter .break {
+	color: black !important;
+}
+.printing.syntaxhighlighter .break a {
+	color: black !important;
+}
+.syntaxhighlighter {
+	background-color: white !important;
+}
+.syntaxhighlighter .alt1.line {
+	background-color: white !important;
+}
+.syntaxhighlighter .alt2.line {
+	background-color: white !important;
+}
+.syntaxhighlighter .alt1.highlighted.line {
+	background-color: rgb(195, 222, 254) !important;
+}
+.syntaxhighlighter .alt2.highlighted.line {
+	background-color: rgb(195, 222, 254) !important;
+}
+.syntaxhighlighter .number.highlighted.line {
+	color: white !important;
+}
+.syntaxhighlighter table caption {
+	color: black !important;
+}
+.syntaxhighlighter .gutter {
+	color: rgb(120, 120, 120) !important;
+}
+.syntaxhighlighter .gutter .line {
+	border-right-color: rgb(212, 208, 200) !important; border-right-width: =
+3px !important; border-right-style: solid !important;
+}
+.syntaxhighlighter .gutter .highlighted.line {
+	color: white !important; background-color: rgb(212, 208, 200) =
+!important;
+}
+.printing.syntaxhighlighter .line .content {
+	border: currentColor !important;
+}
+.collapsed.syntaxhighlighter {
+	overflow: visible !important;
+}
+.collapsed.syntaxhighlighter .toolbar {
+	background: white !important; border: 1px solid rgb(212, 208, 200) =
+!important; color: rgb(63, 95, 191) !important;
+}
+.collapsed.syntaxhighlighter .toolbar a {
+	color: rgb(63, 95, 191) !important;
+}
+.collapsed.syntaxhighlighter .toolbar a:hover {
+	color: rgb(170, 119, 0) !important;
+}
+.syntaxhighlighter .toolbar {
+	background: rgb(212, 208, 200) !important; border: currentColor =
+!important; color: rgb(160, 160, 160) !important;
+}
+.syntaxhighlighter .toolbar a {
+	color: rgb(160, 160, 160) !important;
+}
+.syntaxhighlighter .toolbar a:hover {
+	color: red !important;
+}
+.syntaxhighlighter .plain {
+	color: black !important;
+}
+.syntaxhighlighter .plain a {
+	color: black !important;
+}
+.syntaxhighlighter .comments {
+	color: rgb(63, 95, 191) !important;
+}
+.syntaxhighlighter .comments a {
+	color: rgb(63, 95, 191) !important;
+}
+.syntaxhighlighter .string {
+	color: rgb(42, 0, 255) !important;
+}
+.syntaxhighlighter .string a {
+	color: rgb(42, 0, 255) !important;
+}
+.syntaxhighlighter .keyword {
+	color: rgb(127, 0, 85) !important;
+}
+.syntaxhighlighter .preprocessor {
+	color: rgb(100, 100, 100) !important;
+}
+.syntaxhighlighter .variable {
+	color: rgb(170, 119, 0) !important;
+}
+.syntaxhighlighter .value {
+	color: rgb(0, 153, 0) !important;
+}
+.syntaxhighlighter .functions {
+	color: rgb(255, 20, 147) !important;
+}
+.syntaxhighlighter .constants {
+	color: rgb(0, 102, 204) !important;
+}
+.syntaxhighlighter .script {
+	color: rgb(127, 0, 85) !important; font-weight: bold !important;
+}
+.syntaxhighlighter .color1 {
+	color: gray !important;
+}
+.syntaxhighlighter .color1 a {
+	color: gray !important;
+}
+.syntaxhighlighter .color2 {
+	color: rgb(255, 20, 147) !important;
+}
+.syntaxhighlighter .color2 a {
+	color: rgb(255, 20, 147) !important;
+}
+.syntaxhighlighter .color3 {
+	color: red !important;
+}
+.syntaxhighlighter .color3 a {
+	color: red !important;
+}
+.syntaxhighlighter .keyword {
+	font-weight: bold !important;
+}
+.syntaxhighlighter .xml .keyword {
+	color: rgb(63, 127, 127) !important; font-weight: normal !important;
+}
+.syntaxhighlighter .xml .color1 {
+	color: rgb(127, 0, 127) !important;
+}
+.syntaxhighlighter .xml .color1 a {
+	color: rgb(127, 0, 127) !important;
+}
+.syntaxhighlighter .xml .string {
+	color: rgb(42, 0, 255) !important; font-style: italic !important;
+}
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: text/css;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/highlighter/styles/shThemeCXF.css
+
+.syntaxhighlighter {
+	background-color: rgb(240, 240, 240) !important;
+}
+.syntaxhighlighter .alt1.line {
+	background-color: rgb(240, 240, 240) !important;
+}
+.syntaxhighlighter .alt2.line {
+	background-color: rgb(240, 240, 240) !important;
+}
+.syntaxhighlighter .alt1.highlighted.line {
+	background-color: rgb(195, 222, 254) !important;
+}
+.syntaxhighlighter .alt2.highlighted.line {
+	background-color: rgb(195, 222, 254) !important;
+}
+.syntaxhighlighter .number.highlighted.line {
+	color: rgb(240, 240, 240) !important;
+}
+.syntaxhighlighter table caption {
+	color: black !important;
+}
+.syntaxhighlighter .gutter {
+	color: rgb(120, 120, 120) !important;
+}
+.syntaxhighlighter .gutter .line {
+	border-right-color: rgb(212, 208, 200) !important; border-right-width: =
+3px !important; border-right-style: solid !important;
+}
+.syntaxhighlighter .gutter .highlighted.line {
+	color: white !important; background-color: rgb(212, 208, 200) =
+!important;
+}
+.printing.syntaxhighlighter .line .content {
+	border: currentColor !important;
+}
+.collapsed.syntaxhighlighter {
+	overflow: visible !important;
+}
+.collapsed.syntaxhighlighter .toolbar {
+	background: rgb(240, 240, 240) !important; border: 1px solid rgb(212, =
+208, 200) !important; color: rgb(63, 95, 191) !important;
+}
+.collapsed.syntaxhighlighter .toolbar a {
+	color: rgb(63, 95, 191) !important;
+}
+.collapsed.syntaxhighlighter .toolbar a:hover {
+	color: rgb(170, 119, 0) !important;
+}
+.syntaxhighlighter .toolbar {
+	background: rgb(212, 208, 200) !important; border: currentColor =
+!important; color: rgb(160, 160, 160) !important;
+}
+.syntaxhighlighter .toolbar a {
+	color: rgb(160, 160, 160) !important;
+}
+.syntaxhighlighter .toolbar a:hover {
+	color: red !important;
+}
+.syntaxhighlighter .plain {
+	color: black !important;
+}
+.syntaxhighlighter .plain a {
+	color: black !important;
+}
+.syntaxhighlighter .comments {
+	color: rgb(63, 95, 191) !important;
+}
+.syntaxhighlighter .comments a {
+	color: rgb(63, 95, 191) !important;
+}
+.syntaxhighlighter .string {
+	color: rgb(42, 0, 255) !important;
+}
+.syntaxhighlighter .string a {
+	color: rgb(42, 0, 255) !important;
+}
+.syntaxhighlighter .keyword {
+	color: rgb(127, 0, 85) !important;
+}
+.syntaxhighlighter .preprocessor {
+	color: rgb(100, 100, 100) !important;
+}
+.syntaxhighlighter .variable {
+	color: rgb(170, 119, 0) !important;
+}
+.syntaxhighlighter .value {
+	color: rgb(0, 153, 0) !important;
+}
+.syntaxhighlighter .functions {
+	color: rgb(255, 20, 147) !important;
+}
+.syntaxhighlighter .constants {
+	color: rgb(0, 102, 204) !important;
+}
+.syntaxhighlighter .script {
+	color: rgb(127, 0, 85) !important; font-weight: bold !important;
+}
+.syntaxhighlighter .color1 {
+	color: gray !important;
+}
+.syntaxhighlighter .color1 a {
+	color: gray !important;
+}
+.syntaxhighlighter .color2 {
+	color: rgb(255, 20, 147) !important;
+}
+.syntaxhighlighter .color2 a {
+	color: rgb(255, 20, 147) !important;
+}
+.syntaxhighlighter .color3 {
+	color: red !important;
+}
+.syntaxhighlighter .color3 a {
+	color: red !important;
+}
+.syntaxhighlighter .keyword {
+	font-weight: bold !important;
+}
+.syntaxhighlighter .xml .keyword {
+	color: rgb(63, 127, 127) !important; font-weight: normal !important;
+}
+.syntaxhighlighter .xml .color1 {
+	color: rgb(127, 0, 127) !important;
+}
+.syntaxhighlighter .xml .color1 a {
+	color: rgb(127, 0, 127) !important;
+}
+.syntaxhighlighter .xml .string {
+	color: rgb(42, 0, 255) !important; font-style: italic !important;
+}
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/space.js
+
+=0A=
+var hide =3D null;=0A=
+var show =3D null;=0A=
+var children =3D null;=0A=
+=0A=
+function init() {=0A=
+  /* Search form initialization */=0A=
+  var form =3D document.forms['search'];=0A=
+  if (form !=3D null) {=0A=
+    form.elements['domains'].value =3D location.hostname;=0A=
+    form.elements['sitesearch'].value =3D location.hostname;=0A=
+  }=0A=
+=0A=
+  /* Children initialization */=0A=
+  hide =3D document.getElementById('hide');=0A=
+  show =3D document.getElementById('show');=0A=
+  children =3D document.all !=3D null ?=0A=
+             document.all['children'] :=0A=
+             document.getElementById('children');=0A=
+  if (children !=3D null) {=0A=
+    children.style.display =3D 'none';=0A=
+    show.style.display =3D 'inline';=0A=
+    hide.style.display =3D 'none';=0A=
+  }=0A=
+}=0A=
+=0A=
+function showChildren() {=0A=
+  children.style.display =3D 'block';=0A=
+  show.style.display =3D 'none';=0A=
+  hide.style.display =3D 'inline';=0A=
+}=0A=
+=0A=
+function hideChildren() {=0A=
+  children.style.display =3D 'none';=0A=
+  show.style.display =3D 'inline';=0A=
+  hide.style.display =3D 'none';=0A=
+}=0A=
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/highlighter/scripts/shCore.js
+
+/**=0A=
+ * SyntaxHighlighter=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter=0A=
+ *=0A=
+ * SyntaxHighlighter is donationware. If you are using it, please donate.=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter/donate.html=0A=
+ *=0A=
+ * @version=0A=
+ * 3.0.83 (July 02 2010)=0A=
+ * =0A=
+ * @copyright=0A=
+ * Copyright (C) 2004-2010 Alex Gorbatchev.=0A=
+ *=0A=
+ * @license=0A=
+ * Dual licensed under the MIT and GPL licenses.=0A=
+ */=0A=
+eval(function(p,a,c,k,e,d){e=3Dfunction(c){return(c<a?'':e(parseInt(c/a))=
+)+((c=3Dc%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace=
+(/^/,String)){while(c--){d[e(c)]=3Dk[c]||e(c)}k=3D[function(e){return =
+d[e]}];e=3Dfunction(){return'\\w+'};c=3D1};while(c--){if(k[c]){p=3Dp.repl=
+ace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('K M;I(M)1S =
+2U("2a\'t 4k M 4K 2g 3l 4G 4H");(6(){6 r(f,e){I(!M.1R(f))1S 3m("3s 15 =
+4R");K =
+a=3Df.1w;f=3DM(f.1m,t(f)+(e||""));I(a)f.1w=3D{1m:a.1m,19:a.19?a.19.1a(0):=
+N};H f}6 =
+t(f){H(f.1J?"g":"")+(f.4s?"i":"")+(f.4p?"m":"")+(f.4v?"x":"")+(f.3n?"y":"=
+")}6 B(f,e,a,b){K =
+c=3Du.L,d,h,g;v=3DR;5K{O(;c--;){g=3Du[c];I(a&g.3r&&(!g.2p||g.2p.W(b))){g.=
+2q.12=3De;I((h=3Dg.2q.X(f))&&h.P=3D=3D=3De){d=3D{3k:g.2b.W(b,h,a),1C:h};1=
+N}}}}5v(i){1S i}5q{v=3D11}H d}6 p(f,e,a){I(3b.Z.1i)H =
+f.1i(e,a);O(a=3Da||0;a<f.L;a++)I(f[a]=3D=3D=3De)H a;H-1}M=3D6(f,e){K =
+a=3D[],b=3DM.1B,c=3D0,d,h;I(M.1R(f)){I(e!=3D=3D1d)1S 3m("2a\'t 5r 5I 5F =
+5B 5C 15 5E 5p");H r(f)}I(v)1S 2U("2a\'t W 3l M 59 5m 5g 5x =
+5i");e=3De||"";O(d=3D{2N:11,19:[],2K:6(g){H =
+e.1i(g)>-1},3d:6(g){e+=3Dg}};c<f.L;)I(h=3DB(f,c,b,d)){a.U(h.3k);c+=3Dh.1C=
+[0].L||1}Y =
+I(h=3Dn.X.W(z[b],f.1a(c))){a.U(h[0]);c+=3Dh[0].L}Y{h=3Df.3a(c);I(h=3D=3D=3D=
+"[")b=3DM.2I;Y =
+I(h=3D=3D=3D"]")b=3DM.1B;a.U(h);c++}a=3D15(a.1K(""),n.Q.W(e,w,""));a.1w=3D=
+{1m:f,19:d.2N?d.19:N};H a};M.3v=3D"1.5.0";M.2I=3D1;M.1B=3D2;K =
+C=3D/\\$(?:(\\d\\d?|[$&`\'])|{([$\\w]+)})/g,w=3D/[^5h]+|([\\s\\S])(?=3D[\=
+\s\\S]*\\1)/g,A=3D/^(?:[?*+]|{\\d+(?:,\\d*)?})\\??/,v=3D11,u=3D[],n=3D{X:=
+15.Z.X,1A:15.Z.1A,1C:1r.Z.1C,Q:1r.Z.Q,1e:1r.Z.1e},x=3Dn.X.W(/()??/,"")[1]=
+=3D=3D=3D1d,D=3D6(){K f=3D/^/g;n.1A.W(f,"");H!f.12}(),y=3D6(){K =
+f=3D/x/g;n.Q.W("x",f,"");H!f.12}(),E=3D15.Z.3n!=3D=3D1d,z=3D{};z[M.2I]=3D=
+/^(?:\\\\(?:[0-3][0-7]{0,2}|[4-7][0-7]?|x[\\29-26-f]{2}|u[\\29-26-f]{4}|c=
+[A-3o-z]|[\\s\\S]))/;z[M.1B]=3D/^(?:\\\\(?:0(?:[0-3][0-7]{0,2}|[4-7][0-7]=
+?)?|[1-9]\\d*|x[\\29-26-f]{2}|u[\\29-26-f]{4}|c[A-3o-z]|[\\s\\S])|\\(\\?[=
+:=3D!]|[?*+]\\?|{\\d+(?:,\\d*)?}\\??)/;M.1h=3D6(f,e,a,b){u.U({2q:r(f,"g"+=
+(E?"y":"")),2b:e,3r:a||M.1B,2p:b||N})};M.2n=3D6(f,e){K =
+a=3Df+"/"+(e||"");H M.2n[a]||(M.2n[a]=3DM(f,e))};M.3c=3D6(f){H =
+r(f,"g")};M.5l=3D6(f){H =
+f.Q(/[-[\\]{}()*+?.,\\\\^$|#\\s]/g,"\\\\$&")};M.5e=3D6(f,e,a,b){e=3Dr(e,"=
+g"+(b&&E?"y":""));e.12=3Da=3Da||0;f=3De.X(f);H =
+b?f&&f.P=3D=3D=3Da?f:N:f};M.3q=3D6(){M.1h=3D6(){1S 2U("2a\'t 55 1h 54 =
+3q")}};M.1R=3D6(f){H 53.Z.1q.W(f)=3D=3D=3D"[2m =
+15]"};M.3p=3D6(f,e,a,b){O(K =
+c=3Dr(e,"g"),d=3D-1,h;h=3Dc.X(f);){a.W(b,h,++d,f,c);c.12=3D=3D=3Dh.P&&c.1=
+2++}I(e.1J)e.12=3D0};M.57=3D6(f,e){H 6 a(b,c){K =
+d=3De[c].1I?e[c]:{1I:e[c]},h=3Dr(d.1I,"g"),g=3D[],i;O(i=3D0;i<b.L;i++)M.3=
+p(b[i],h,6(k){g.U(d.3j?k[d.3j]||"":k[0])});H =
+c=3D=3D=3De.L-1||!g.L?g:a(g,c+1)}([f],0)};15.Z.1p=3D6(f,e){H =
+J.X(e[0])};15.Z.W=3D6(f,e){H J.X(e)};15.Z.X=3D6(f){K =
+e=3Dn.X.1p(J,14),a;I(e){I(!x&&e.L>1&&p(e,"")>-1){a=3D15(J.1m,n.Q.W(t(J),"=
+g",""));n.Q.W(f.1a(e.P),a,6(){O(K =
+c=3D1;c<14.L-2;c++)I(14[c]=3D=3D=3D1d)e[c]=3D1d})}I(J.1w&&J.1w.19)O(K =
+b=3D1;b<e.L;b++)I(a=3DJ.1w.19[b-1])e[a]=3De[b];!D&&J.1J&&!e[0].L&&J.12>e.=
+P&&J.12--}H =
+e};I(!D)15.Z.1A=3D6(f){(f=3Dn.X.W(J,f))&&J.1J&&!f[0].L&&J.12>f.P&&J.12--;=
+H!!f};1r.Z.1C=3D6(f){M.1R(f)||(f=3D15(f));I(f.1J){K =
+e=3Dn.1C.1p(J,14);f.12=3D0;H e}H f.X(J)};1r.Z.Q=3D6(f,e){K =
+a=3DM.1R(f),b,c;I(a&&1j e.58()=3D=3D=3D"3f"&&e.1i("${")=3D=3D=3D-1&&y)H =
+n.Q.1p(J,14);I(a){I(f.1w)b=3Df.1w.19}Y f+=3D"";I(1j =
+e=3D=3D=3D"6")c=3Dn.Q.W(J,f,6(){I(b){14[0]=3D1f 1r(14[0]);O(K =
+d=3D0;d<b.L;d++)I(b[d])14[0][b[d]]=3D14[d+1]}I(a&&f.1J)f.12=3D14[14.L-2]+=
+14[0].L;H e.1p(N,14)});Y{c=3DJ+"";c=3Dn.Q.W(c,f,6(){K d=3D14;H =
+n.Q.W(e,C,6(h,g,i){I(g)5b(g){24"$":H"$";24"&":H d[0];24"`":H =
+d[d.L-1].1a(0,d[d.L-2]);24"\'":H =
+d[d.L-1].1a(d[d.L-2]+d[0].L);5a:i=3D"";g=3D+g;I(!g)H =
+h;O(;g>d.L-3;){i=3D1r.Z.1a.W(g,-1)+i;g=3D1Q.3i(g/10)}H(g?d[g]||"":"$")+i}=
+Y{g=3D+i;I(g<=3Dd.L-3)H d[g];g=3Db?p(b,i):-1;H =
+g>-1?d[g+1]:h}})})}I(a&&f.1J)f.12=3D0;H c};1r.Z.1e=3D6(f,e){I(!M.1R(f))H =
+n.1e.1p(J,14);K =
+a=3DJ+"",b=3D[],c=3D0,d,h;I(e=3D=3D=3D1d||+e<0)e=3D5D;Y{e=3D1Q.3i(+e);I(!=
+e)H[]}O(f=3DM.3c(f);d=3Df.X(a);){I(f.12>c){b.U(a.1a(c,d.P));d.L>1&&d.P<a.=
+L&&3b.Z.U.1p(b,d.1a(1));h=3Dd[0].L;c=3Df.12;I(b.L>=3De)1N}f.12=3D=3D=3Dd.=
+P&&f.12++}I(c=3D=3D=3Da.L){I(!n.1A.W(f,"")||h)b.U("")}Y b.U(a.1a(c));H =
+b.L>e?b.1a(0,e):b};M.1h(/\\(\\?#[^)]*\\)/,6(f){H =
+n.1A.W(A,f.2S.1a(f.P+f[0].L))?"":"(?:)"});M.1h(/\\((?!\\?)/,6(){J.19.U(N)=
+;H"("});M.1h(/\\(\\?<([$\\w]+)>/,6(f){J.19.U(f[1]);J.2N=3DR;H"("});M.1h(/=
+\\\\k<([\\w$]+)>/,6(f){K e=3Dp(J.19,f[1]);H =
+e>-1?"\\\\"+(e+1)+(3R(f.2S.3a(f.P+f[0].L))?"":"(?:)"):f[0]});M.1h(/\\[\\^=
+?]/,6(f){H =
+f[0]=3D=3D=3D"[]"?"\\\\b\\\\B":"[\\\\s\\\\S]"});M.1h(/^\\(\\?([5A]+)\\)/,=
+6(f){J.3d(f[1]);H""});M.1h(/(?:\\s+|#.*)+/,6(f){H =
+n.1A.W(A,f.2S.1a(f.P+f[0].L))?"":"(?:)"},M.1B,6(){H =
+J.2K("x")});M.1h(/\\./,6(){H"[\\\\s\\\\S]"},M.1B,6(){H =
+J.2K("s")})})();1j 2e!=3D"1d"&&(2e.M=3DM);K 1v=3D6(){6 =
+r(a,b){a.1l.1i(b)!=3D-1||(a.1l+=3D" "+b)}6 t(a){H =
+a.1i("3e")=3D=3D0?a:"3e"+a}6 B(a){H e.1Y.2A[t(a)]}6 =
+p(a,b,c){I(a=3D=3DN)H N;K =
+d=3Dc!=3DR?a.3G:[a.2G],h=3D{"#":"1c",".":"1l"}[b.1o(0,1)]||"3h",g,i;g=3Dh=
+!=3D"3h"?b.1o(1):b.5u();I((a[h]||"").1i(g)!=3D-1)H =
+a;O(a=3D0;d&&a<d.L&&i=3D=3DN;a++)i=3Dp(d[a],b,c);H i}6 C(a,b){K =
+c=3D{},d;O(d 2g a)c[d]=3Da[d];O(d 2g b)c[d]=3Db[d];H c}6 w(a,b,c,d){6 =
+h(g){g=3Dg||1P.5y;I(!g.1F){g.1F=3Dg.52;g.3N=3D6(){J.5w=3D11}}c.W(d||1P,g)=
+}a.3g?a.3g("4U"+b,h):a.4y(b,h,11)}6 A(a,b){K =
+c=3De.1Y.2j,d=3DN;I(c=3D=3DN){c=3D{};O(K h 2g e.1U){K =
+g=3De.1U[h];d=3Dg.4x;I(d!=3DN){g.1V=3Dh.4w();O(g=3D0;g<d.L;g++)c[d[g]]=3D=
+h}}e.1Y.2j=3Dc}d=3De.1U[c[a]];d=3D=3DN&&b!=3D11&&1P.1X(e.13.1x.1X+(e.13.1=
+x.3E+a));H d}6 v(a,b){O(K =
+c=3Da.1e("\\n"),d=3D0;d<c.L;d++)c[d]=3Db(c[d],d);H c.1K("\\n")}6 =
+u(a,b){I(a=3D=3DN||a.L=3D=3D0||a=3D=3D"\\n")H =
+a;a=3Da.Q(/</g,"&1y;");a=3Da.Q(/ {2,}/g,6(c){O(K =
+d=3D"",h=3D0;h<c.L-1;h++)d+=3De.13.1W;H d+" =
+"});I(b!=3DN)a=3Dv(a,6(c){I(c.L=3D=3D0)H"";K d=3D"";c=3Dc.Q(/^(&2s;| =
+)+/,6(h){d=3Dh;H""});I(c.L=3D=3D0)H d;H d+\'<17 =
+1g=3D"\'+b+\'">\'+c+"</17>"});H a}6 n(a,b){a.1e("\\n");O(K =
+c=3D"",d=3D0;d<50;d++)c+=3D"                    ";H =
+a=3Dv(a,6(h){I(h.1i("\\t")=3D=3D-1)H h;O(K =
+g=3D0;(g=3Dh.1i("\\t"))!=3D-1;)h=3Dh.1o(0,g)+c.1o(0,b-g%b)+h.1o(g+1,h.L);=
+H h})}6 x(a){H a.Q(/^\\s+|\\s+$/g,"")}6 D(a,b){I(a.P<b.P)H-1;Y =
+I(a.P>b.P)H 1;Y I(a.L<b.L)H-1;Y I(a.L>b.L)H 1;H 0}6 y(a,b){6 c(k){H =
+k[0]}O(K d=3DN,h=3D[],g=3Db.2D?b.2D:c;(d=3Db.1I.X(a))!=3DN;){K =
+i=3Dg(d,b);I(1j i=3D=3D"3f")i=3D[1f e.2L(i,d.P,b.23)];h=3Dh.1O(i)}H h}6 =
+E(a){K b=3D/(.*)((&1G;|&1y;).*)/;H a.Q(e.3A.3M,6(c){K =
+d=3D"",h=3DN;I(h=3Db.X(c)){c=3Dh[1];d=3Dh[2]}H\'<a =
+2h=3D"\'+c+\'">\'+c+"</a>"+d})}6 z(){O(K =
+a=3D1E.36("1k"),b=3D[],c=3D0;c<a.L;c++)a[c].3s=3D=3D"20"&&b.U(a[c]);H =
+b}6 f(a){a=3Da.1F;K b=3Dp(a,".20",R);a=3Dp(a,".3O",R);K =
+c=3D1E.4i("3t");I(!(!a||!b||p(a,"3t"))){B(b.1c);r(b,"1m");O(K =
+d=3Da.3G,h=3D[],g=3D0;g<d.L;g++)h.U(d[g].4z||d[g].4A);h=3Dh.1K("\\r");c.3=
+9(1E.4D(h));a.39(c);c.2C();c.4C();w(c,"4u",6(){c.2G.4E(c);b.1l=3Db.1l.Q("=
+1m","")})}}I(1j 3F!=3D"1d"&&1j M=3D=3D"1d")M=3D3F("M").M;K =
+e=3D{2v:{"1g-27":"","2i-1s":1,"2z-1s-2t":11,1M:N,1t:N,"42-45":R,"43-22":4=
+,1u:R,16:R,"3V-17":R,2l:11,"41-40":R,2k:11,"1z-1k":11},13:{1W:"&2s;",2M:R=
+,46:11,44:11,34:"4n",1x:{21:"4o 1m",2P:"?",1X:"1v\\n\\n",3E:"4r\'t 4t 1D =
+O: ",4g:"4m 4B\'t 51 O 1z-1k 4F: ",37:\'<!4T 1z 4S "-//4V//3H 4W 1.0 =
+4Z//4Y" "1Z://2y.3L.3K/4X/3I/3H/3I-4P.4J"><1z =
+4I=3D"1Z://2y.3L.3K/4L/5L"><3J><4N 1Z-4M=3D"5G-5M" 6K=3D"2O/1z; =
+6J=3D6I-8" /><1t>6L 1v</1t></3J><3B =
+1L=3D"25-6M:6Q,6P,6O,6N-6F;6y-2f:#6x;2f:#6w;25-22:6v;2O-3D:3C;"><T =
+1L=3D"2O-3D:3C;3w-32:1.6z;"><T 1L=3D"25-22:6A-6E;">1v</T><T =
+1L=3D"25-22:.6C;3w-6B:6R;"><T>3v 3.0.76 (72 73 3x)</T><T><a =
+2h=3D"1Z://3u.2w/1v" 1F=3D"38" 1L=3D"2f:#3y">1Z://3u.2w/1v</a></T><T>70 =
+17 6U 71.</T><T>6T 6X-3x 6Y 6D.</T></T><T>6t 61 60 J 1k, 5Z <a =
+2h=3D"6u://2y.62.2w/63-66/65?64=3D5X-5W&5P=3D5O" 1L=3D"2f:#3y">5R</a> 5V =
+<2R/>5U 5T =
+5S!</T></T></3B></1z>\'}},1Y:{2j:N,2A:{}},1U:{},3A:{6n:/\\/\\*[\\s\\S]*?\=
+\*\\//2c,6m:/\\/\\/.*$/2c,6l:/#.*$/2c,6k:/"([^\\\\"\\n]|\\\\.)*"/g,6o:/\'=
+([^\\\\\'\\n]|\\\\.)*\'/g,6p:1f =
+M(\'"([^\\\\\\\\"]|\\\\\\\\.)*"\',"3z"),6s:1f =
+M("\'([^\\\\\\\\\']|\\\\\\\\.)*\'","3z"),6q:/(&1y;|<)!--[\\s\\S]*?--(&1G;=
+|>)/2c,3M:/\\w+:\\/\\/[\\w-.\\/?%&=3D:@;]*/g,6a:{18:/(&1y;|<)\\?=3D?/g,1b=
+:/\\?(&1G;|>)/g},69:{18:/(&1y;|<)%=3D?/g,1b:/%(&1G;|>)/g},6d:{18:/(&1y;|<=
+)\\s*1k.*?(&1G;|>)/2T,1b:/(&1y;|<)\\/\\s*1k\\s*(&1G;|>)/2T}},16:{1H:6(a){=
+6 b(i,k){H e.16.2o(i,k,e.13.1x[k])}O(K c=3D\'<T =
+1g=3D"16">\',d=3De.16.2x,h=3Dd.2X,g=3D0;g<h.L;g++)c+=3D(d[h[g]].1H||b)(a,=
+h[g]);c+=3D"</T>";H c},2o:6(a,b,c){H\'<2W><a 2h=3D"#" 1g=3D"6e 6h\'+b+" =
+"+b+\'">\'+c+"</a></2W>"},2b:6(a){K =
+b=3Da.1F,c=3Db.1l||"";b=3DB(p(b,".20",R).1c);K =
+d=3D6(h){H(h=3D15(h+"6f(\\\\w+)").X(c))?h[1]:N}("6g");b&&d&&e.16.2x[d].2B=
+(b);a.3N()},2x:{2X:["21","2P"],21:{1H:6(a){I(a.V("2l")!=3DR)H"";K =
+b=3Da.V("1t");H =
+e.16.2o(a,"21",b?b:e.13.1x.21)},2B:6(a){a=3D1E.6j(t(a.1c));a.1l=3Da.1l.Q(=
+"47","")}},2P:{2B:6(){K a=3D"68=3D0";a+=3D", 18=3D"+(31.30-33)/2+", =
+32=3D"+(31.2Z-2Y)/2+", 30=3D33, =
+2Z=3D2Y";a=3Da.Q(/^,/,"");a=3D1P.6Z("","38",a);a.2C();K =
+b=3Da.1E;b.6W(e.13.1x.37);b.6V();a.2C()}}}},35:6(a,b){K =
+c;I(b)c=3D[b];Y{c=3D1E.36(e.13.34);O(K =
+d=3D[],h=3D0;h<c.L;h++)d.U(c[h]);c=3Dd}c=3Dc;d=3D[];I(e.13.2M)c=3Dc.1O(z(=
+));I(c.L=3D=3D=3D0)H d;O(h=3D0;h<c.L;h++){O(K =
+g=3Dc[h],i=3Da,k=3Dc[h].1l,j=3D3W 0,l=3D{},m=3D1f =
+M("^\\\\[(?<2V>(.*?))\\\\]$"),s=3D1f =
+M("(?<27>[\\\\w-]+)\\\\s*:\\\\s*(?<1T>[\\\\w-%#]+|\\\\[.*?\\\\]|\\".*?\\"=
+|\'.*?\')\\\\s*;?","g");(j=3Ds.X(k))!=3DN;){K =
+o=3Dj.1T.Q(/^[\'"]|[\'"]$/g,"");I(o!=3DN&&m.1A(o)){o=3Dm.X(o);o=3Do.2V.L>=
+0?o.2V.1e(/\\s*,\\s*/):[]}l[j.27]=3Do}g=3D{1F:g,1n:C(i,l)};g.1n.1D!=3DN&&=
+d.U(g)}H d},1M:6(a,b){K c=3DJ.35(a,b),d=3DN,h=3De.13;I(c.L!=3D=3D0)O(K =
+g=3D0;g<c.L;g++){b=3Dc[g];K =
+i=3Db.1F,k=3Db.1n,j=3Dk.1D,l;I(j!=3DN){I(k["1z-1k"]=3D=3D"R"||e.2v["1z-1k=
+"]=3D=3DR){d=3D1f e.4l(j);j=3D"4O"}Y I(d=3DA(j))d=3D1f d;Y =
+6H;l=3Di.3X;I(h.2M){l=3Dl;K =
+m=3Dx(l),s=3D11;I(m.1i("<![6G[")=3D=3D0){m=3Dm.4h(9);s=3DR}K =
+o=3Dm.L;I(m.1i("]]\\>")=3D=3Do-3){m=3Dm.4h(0,o-3);s=3DR}l=3Ds?m:l}I((i.1t=
+||"")!=3D"")k.1t=3Di.1t;k.1D=3Dj;d.2Q(k);b=3Dd.2F(l);I((i.1c||"")!=3D"")b=
+.1c=3Di.1c;i.2G.74(b,i)}}},2E:6(a){w(1P,"4k",6(){e.1M(a)})}};e.2E=3De.2E;=
+e.1M=3De.1M;e.2L=3D6(a,b,c){J.1T=3Da;J.P=3Db;J.L=3Da.L;J.23=3Dc;J.1V=3DN}=
+;e.2L.Z.1q=3D6(){H J.1T};e.4l=3D6(a){6 b(j,l){O(K =
+m=3D0;m<j.L;m++)j[m].P+=3Dl}K c=3DA(a),d,h=3D1f e.1U.5Y,g=3DJ,i=3D"2F 1H =
+2Q".1e(" ");I(c!=3DN){d=3D1f c;O(K k=3D0;k<i.L;k++)(6(){K =
+j=3Di[k];g[j]=3D6(){H =
+h[j].1p(h,14)}})();d.28=3D=3DN?1P.1X(e.13.1x.1X+(e.13.1x.4g+a)):h.2J.U({1=
+I:d.28.17,2D:6(j){O(K =
+l=3Dj.17,m=3D[],s=3Dd.2J,o=3Dj.P+j.18.L,F=3Dd.28,q,G=3D0;G<s.L;G++){q=3Dy=
+(l,s[G]);b(q,o);m=3Dm.1O(q)}I(F.18!=3DN&&j.18!=3DN){q=3Dy(j.18,F.18);b(q,=
+j.P);m=3Dm.1O(q)}I(F.1b!=3DN&&j.1b!=3DN){q=3Dy(j.1b,F.1b);b(q,j.P+j[0].5Q=
+(j.1b));m=3Dm.1O(q)}O(j=3D0;j<m.L;j++)m[j].1V=3Dc.1V;H =
+m}})}};e.4j=3D6(){};e.4j.Z=3D{V:6(a,b){K c=3DJ.1n[a];c=3Dc=3D=3DN?b:c;K =
+d=3D{"R":R,"11":11}[c];H d=3D=3DN?c:d},3Y:6(a){H 1E.4i(a)},4c:6(a,b){K =
+c=3D[];I(a!=3DN)O(K d=3D0;d<a.L;d++)I(1j =
+a[d]=3D=3D"2m")c=3Dc.1O(y(b,a[d]));H J.4e(c.6b(D))},4e:6(a){O(K =
+b=3D0;b<a.L;b++)I(a[b]!=3D=3DN)O(K =
+c=3Da[b],d=3Dc.P+c.L,h=3Db+1;h<a.L&&a[b]!=3D=3DN;h++){K =
+g=3Da[h];I(g!=3D=3DN)I(g.P>d)1N;Y I(g.P=3D=3Dc.P&&g.L>c.L)a[b]=3DN;Y =
+I(g.P>=3Dc.P&&g.P<d)a[h]=3DN}H a},4d:6(a){K =
+b=3D[],c=3D2u(J.V("2i-1s"));v(a,6(d,h){b.U(h+c)});H b},3U:6(a){K =
+b=3DJ.V("1M",[]);I(1j b!=3D"2m"&&b.U=3D=3DN)b=3D[b];a:{a=3Da.1q();K =
+c=3D3W 0;O(c=3Dc=3D1Q.6c(c||0,0);c<b.L;c++)I(b[c]=3D=3Da){b=3Dc;1N =
+a}b=3D-1}H =
+b!=3D-1},2r:6(a,b,c){a=3D["1s","6i"+b,"P"+a,"6r"+(b%2=3D=3D0?1:2).1q()];J=
+.3U(b)&&a.U("67");b=3D=3D0&&a.U("1N");H\'<T 1g=3D"\'+a.1K(" =
+")+\'">\'+c+"</T>"},3Q:6(a,b){K =
+c=3D"",d=3Da.1e("\\n").L,h=3D2u(J.V("2i-1s")),g=3DJ.V("2z-1s-2t");I(g=3D=3D=
+R)g=3D(h+d-1).1q().L;Y I(3R(g)=3D=3DR)g=3D0;O(K i=3D0;i<d;i++){K =
+k=3Db?b[i]:h+i,j;I(k=3D=3D0)j=3De.13.1W;Y{j=3Dg;O(K =
+l=3Dk.1q();l.L<j;)l=3D"0"+l;j=3Dl}a=3Dj;c+=3DJ.2r(i,k,a)}H =
+c},49:6(a,b){a=3Dx(a);K c=3Da.1e("\\n");J.V("2z-1s-2t");K =
+d=3D2u(J.V("2i-1s"));a=3D"";O(K h=3DJ.V("1D"),g=3D0;g<c.L;g++){K =
+i=3Dc[g],k=3D/^(&2s;|\\s)+/.X(i),j=3DN,l=3Db?b[g]:d+g;I(k!=3DN){j=3Dk[0].=
+1q();i=3Di.1o(j.L);j=3Dj.Q(" =
+",e.13.1W)}i=3Dx(i);I(i.L=3D=3D0)i=3De.13.1W;a+=3DJ.2r(g,l,(j!=3DN?\'<17 =
+1g=3D"\'+h+\' 5N">\'+j+"</17>":"")+i)}H a},4f:6(a){H =
+a?"<4a>"+a+"</4a>":""},4b:6(a,b){6 c(l){H(l=3Dl?l.1V||g:g)?l+" ":""}O(K =
+d=3D0,h=3D"",g=3DJ.V("1D",""),i=3D0;i<b.L;i++){K =
+k=3Db[i],j;I(!(k=3D=3D=3DN||k.L=3D=3D=3D0)){j=3Dc(k);h+=3Du(a.1o(d,k.P-d)=
+,j+"48")+u(k.1T,j+k.23);d=3Dk.P+k.L+(k.75||0)}}h+=3Du(a.1o(d),c()+"48");H=
+ h},1H:6(a){K =
+b=3D"",c=3D["20"],d;I(J.V("2k")=3D=3DR)J.1n.16=3DJ.1n.1u=3D11;1l=3D"20";J=
+.V("2l")=3D=3DR&&c.U("47");I((1u=3DJ.V("1u"))=3D=3D11)c.U("6S");c.U(J.V("=
+1g-27"));c.U(J.V("1D"));a=3Da.Q(/^[ ]*[\\n]+|[\\n]*[ =
+]*$/g,"").Q(/\\r/g," =
+");b=3DJ.V("43-22");I(J.V("42-45")=3D=3DR)a=3Dn(a,b);Y{O(K =
+h=3D"",g=3D0;g<b;g++)h+=3D" =
+";a=3Da.Q(/\\t/g,h)}a=3Da;a:{b=3Da=3Da;h=3D/<2R\\s*\\/?>|&1y;2R\\s*\\/?&1=
+G;/2T;I(e.13.46=3D=3DR)b=3Db.Q(h,"\\n");I(e.13.44=3D=3DR)b=3Db.Q(h,"");b=3D=
+b.1e("\\n");h=3D/^\\s*/;g=3D4Q;O(K i=3D0;i<b.L&&g>0;i++){K =
+k=3Db[i];I(x(k).L!=3D0){k=3Dh.X(k);I(k=3D=3DN){a=3Da;1N =
+a}g=3D1Q.4q(k[0].L,g)}}I(g>0)O(i=3D0;i<b.L;i++)b[i]=3Db[i].1o(g);a=3Db.1K=
+("\\n")}I(1u)d=3DJ.4d(a);b=3DJ.4c(J.2J,a);b=3DJ.4b(a,b);b=3DJ.49(b,d);I(J=
+.V("41-40"))b=3DE(b);1j 2H!=3D"1d"&&2H.3S&&2H.3S.1C(/5s/)&&c.U("5t");H =
+b=3D\'<T 1c=3D"\'+t(J.1c)+\'" 1g=3D"\'+c.1K(" =
+")+\'">\'+(J.V("16")?e.16.1H(J):"")+\'<3Z 5z=3D"0" 5H=3D"0" =
+5J=3D"0">\'+J.4f(J.V("1t"))+"<3T><3P>"+(1u?\'<2d =
+1g=3D"1u">\'+J.3Q(a)+"</2d>":"")+\'<2d 1g=3D"17"><T =
+1g=3D"3O">\'+b+"</T></2d></3P></3T></3Z></T>"},2F:6(a){I(a=3D=3D=3DN)a=3D=
+"";J.17=3Da;K =
+b=3DJ.3Y("T");b.3X=3DJ.1H(a);J.V("16")&&w(p(b,".16"),"5c",e.16.2b);J.V("3=
+V-17")&&w(p(b,".17"),"56",f);H =
+b},2Q:6(a){J.1c=3D""+1Q.5d(1Q.5n()*5k).1q();e.1Y.2A[t(J.1c)]=3DJ;J.1n=3DC=
+(e.2v,a||{});I(J.V("2k")=3D=3DR)J.1n.16=3DJ.1n.1u=3D11},5j:6(a){a=3Da.Q(/=
+^\\s+|\\s+$/g,"").Q(/\\s+/g,"|");H"\\\\b(?:"+a+")\\\\b"},5f:6(a){J.28=3D{=
+18:{1I:a.18,23:"1k"},1b:{1I:a.1b,23:"1k"},17:1f =
+M("(?<18>"+a.18.1m+")(?<17>.*?)(?<1b>"+a.1b.1m+")","5o")}}};H e}();1j =
+2e!=3D"1d"&&(2e.1v=3D1v);',62,441,'||||||function||||||||||||||||||||||||=
+|||||||||||||return|if|this|var|length|XRegExp|null|for|index|replace|tru=
+e||div|push|getParam|call|exec|else|prototype||false|lastIndex|config|arg=
+uments|RegExp|toolbar|code|left|captureNames|slice|right|id|undefined|spl=
+it|new|class|addToken|indexOf|typeof|script|className|source|params|subst=
+r|apply|toString|String|line|title|gutter|SyntaxHighlighter|_xregexp|stri=
+ngs|lt|html|test|OUTSIDE_CLASS|match|brush|document|target|gt|getHtml|reg=
+ex|global|join|style|highlight|break|concat|window|Math|isRegExp|throw|va=
+lue|brushes|brushName|space|alert|vars|http|syntaxhighlighter|expandSourc=
+e|size|css|case|font|Fa|name|htmlScript|dA|can|handler|gm|td|exports|colo=
+r|in|href|first|discoveredBrushes|light|collapse|object|cache|getButtonHt=
+ml|trigger|pattern|getLineHtml|nbsp|numbers|parseInt|defaults|com|items|w=
+ww|pad|highlighters|execute|focus|func|all|getDiv|parentNode|navigator|IN=
+SIDE_CLASS|regexList|hasFlag|Match|useScriptTags|hasNamedCapture|text|hel=
+p|init|br|input|gi|Error|values|span|list|250|height|width|screen|top|500=
+|tagName|findElements|getElementsByTagName|aboutDialog|_blank|appendChild=
+|charAt|Array|copyAsGlobal|setFlag|highlighter_|string|attachEvent|nodeNa=
+me|floor|backref|output|the|TypeError|sticky|Za|iterate|freezeTokens|scop=
+e|type|textarea|alexgorbatchev|version|margin|2010|005896|gs|regexLib|bod=
+y|center|align|noBrush|require|childNodes|DTD|xhtml1|head|org|w3|url|prev=
+entDefault|container|tr|getLineNumbersHtml|isNaN|userAgent|tbody|isLineHi=
+ghlighted|quick|void|innerHTML|create|table|links|auto|smart|tab|stripBrs=
+|tabs|bloggerMode|collapsed|plain|getCodeLinesHtml|caption|getMatchesHtml=
+|findMatches|figureOutLineNumbers|removeNestedMatches|getTitleHtml|brushN=
+otHtmlScript|substring|createElement|Highlighter|load|HtmlScript|Brush|pr=
+e|expand|multiline|min|Can|ignoreCase|find|blur|extended|toLowerCase|alia=
+ses|addEventListener|innerText|textContent|wasn|select|createTextNode|rem=
+oveChild|option|same|frame|xmlns|dtd|twice|1999|equiv|meta|htmlscript|tra=
+nsitional|1E3|expected|PUBLIC|DOCTYPE|on|W3C|XHTML|TR|EN|Transitional||co=
+nfigured|srcElement|Object|after|run|dblclick|matchChain|valueOf|construc=
+tor|default|switch|click|round|execAt|forHtmlScript|token|gimy|functions|=
+getKeywords|1E6|escape|within|random|sgi|another|finally|supply|MSIE|ie|t=
+oUpperCase|catch|returnValue|definition|event|border|imsx|constructing|on=
+e|Infinity|from|when|Content|cellpadding|flags|cellspacing|try|xhtml|Type=
+|spaces|2930402|hosted_button_id|lastIndexOf|donate|active|development|ke=
+ep|to|xclick|_s|Xml|please|like|you|paypal|cgi|cmd|webscr|bin|highlighted=
+|scrollbars|aspScriptTags|phpScriptTags|sort|max|scriptScriptTags|toolbar=
+_item|_|command|command_|number|getElementById|doubleQuotedString|singleL=
+inePerlComments|singleLineCComments|multiLineCComments|singleQuotedString=
+|multiLineDoubleQuotedString|xmlComments|alt|multiLineSingleQuotedString|=
+If|https|1em|000|fff|background|5em|xx|bottom|75em|Gorbatchev|large|serif=
+|CDATA|continue|utf|charset|content|About|family|sans|Helvetica|Arial|Gen=
+eva|3em|nogutter|Copyright|syntax|close|write|2004|Alex|open|JavaScript|h=
+ighlighter|July|02|replaceChild|offset|83'.split('|'),0,{}))=0A=
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/highlighter/scripts/shBrushJava.js
+
+/**=0A=
+ * SyntaxHighlighter=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter=0A=
+ *=0A=
+ * SyntaxHighlighter is donationware. If you are using it, please donate.=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter/donate.html=0A=
+ *=0A=
+ * @version=0A=
+ * 3.0.83 (July 02 2010)=0A=
+ * =0A=
+ * @copyright=0A=
+ * Copyright (C) 2004-2010 Alex Gorbatchev.=0A=
+ *=0A=
+ * @license=0A=
+ * Dual licensed under the MIT and GPL licenses.=0A=
+ */=0A=
+;(function()=0A=
+{=0A=
+	// CommonJS=0A=
+	typeof(require) !=3D 'undefined' ? SyntaxHighlighter =3D =
+require('shCore').SyntaxHighlighter : null;=0A=
+=0A=
+	function Brush()=0A=
+	{=0A=
+		var keywords =3D	'abstract assert boolean break byte case catch char =
+class const ' +=0A=
+						'continue default do double else enum extends ' +=0A=
+						'false final finally float for goto if implements import ' +=0A=
+						'instanceof int interface long native new null ' +=0A=
+						'package private protected public return ' +=0A=
+						'short static strictfp super switch synchronized this throw throws =
+true ' +=0A=
+						'transient try void volatile while';=0A=
+=0A=
+		this.regexList =3D [=0A=
+			{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: =
+'comments' },		// one line comments=0A=
+			{ regex: /\/\*([^\*][\s\S]*)?\*\//gm,						css: 'comments' },	 	// =
+multiline comments=0A=
+			{ regex: /\/\*(?!\*\/)\*[\s\S]*?\*\//gm,					css: 'preprocessor' },	=
+// documentation comments=0A=
+			{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: =
+'string' },		// strings=0A=
+			{ regex: SyntaxHighlighter.regexLib.singleQuotedString,		css: =
+'string' },		// strings=0A=
+			{ regex: /\b([\d]+(\.[\d]+)?|0x[a-f0-9]+)\b/gi,				css: 'value' },			=
+// numbers=0A=
+			{ regex: /(?!\@interface\b)\@[\$\w]+\b/g,					css: 'color1' },		// =
+annotation @anno=0A=
+			{ regex: /\@interface\b/g,									css: 'color2' },		// @interface =
+keyword=0A=
+			{ regex: new RegExp(this.getKeywords(keywords), 'gm'),		css: =
+'keyword' }		// java keyword=0A=
+			];=0A=
+=0A=
+		this.forHtmlScript({=0A=
+			left	: /(&lt;|<)%[@!=3D]?/g, =0A=
+			right	: /%(&gt;|>)/g =0A=
+		});=0A=
+	};=0A=
+=0A=
+	Brush.prototype	=3D new SyntaxHighlighter.Highlighter();=0A=
+	Brush.aliases	=3D ['java'];=0A=
+=0A=
+	SyntaxHighlighter.brushes.Java =3D Brush;=0A=
+=0A=
+	// CommonJS=0A=
+	typeof(exports) !=3D 'undefined' ? exports.Brush =3D Brush : null;=0A=
+})();=0A=
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/highlighter/scripts/shBrushXml.js
+
+/**=0A=
+ * SyntaxHighlighter=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter=0A=
+ *=0A=
+ * SyntaxHighlighter is donationware. If you are using it, please donate.=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter/donate.html=0A=
+ *=0A=
+ * @version=0A=
+ * 3.0.83 (July 02 2010)=0A=
+ * =0A=
+ * @copyright=0A=
+ * Copyright (C) 2004-2010 Alex Gorbatchev.=0A=
+ *=0A=
+ * @license=0A=
+ * Dual licensed under the MIT and GPL licenses.=0A=
+ */=0A=
+;(function()=0A=
+{=0A=
+	// CommonJS=0A=
+	typeof(require) !=3D 'undefined' ? SyntaxHighlighter =3D =
+require('shCore').SyntaxHighlighter : null;=0A=
+=0A=
+	function Brush()=0A=
+	{=0A=
+		function process(match, regexInfo)=0A=
+		{=0A=
+			var constructor =3D SyntaxHighlighter.Match,=0A=
+				code =3D match[0],=0A=
+				tag =3D new XRegExp('(&lt;|<)[\\s\\/\\?]*(?<name>[:\\w-\\.]+)', =
+'xg').exec(code),=0A=
+				result =3D []=0A=
+				;=0A=
+		=0A=
+			if (match.attributes !=3D null) =0A=
+			{=0A=
+				var attributes,=0A=
+					regex =3D new XRegExp('(?<name> [\\w:\\-\\.]+)' +=0A=
+										'\\s*=3D\\s*' +=0A=
+										'(?<value> ".*?"|\'.*?\'|\\w+)',=0A=
+										'xg');=0A=
+=0A=
+				while ((attributes =3D regex.exec(code)) !=3D null) =0A=
+				{=0A=
+					result.push(new constructor(attributes.name, match.index + =
+attributes.index, 'color1'));=0A=
+					result.push(new constructor(attributes.value, match.index + =
+attributes.index + attributes[0].indexOf(attributes.value), 'string'));=0A=
+				}=0A=
+			}=0A=
+=0A=
+			if (tag !=3D null)=0A=
+				result.push(=0A=
+					new constructor(tag.name, match.index + tag[0].indexOf(tag.name), =
+'keyword')=0A=
+				);=0A=
+=0A=
+			return result;=0A=
+		}=0A=
+	=0A=
+		this.regexList =3D [=0A=
+			{ regex: new =
+XRegExp('(\\&lt;|<)\\!\\[[\\w\\s]*?\\[(.|\\s)*?\\]\\](\\&gt;|>)', 'gm'),	=
+		css: 'color2' },	// <![ ... [ ... ]]>=0A=
+			{ regex: SyntaxHighlighter.regexLib.xmlComments,												css: =
+'comments' },	// <!-- ... -->=0A=
+			{ regex: new =
+XRegExp('(&lt;|<)[\\s\\/\\?]*(\\w+)(?<attributes>.*?)[\\s\\/\\?]*(&gt;|>)=
+', 'sg'), func: process }=0A=
+		];=0A=
+	};=0A=
+=0A=
+	Brush.prototype	=3D new SyntaxHighlighter.Highlighter();=0A=
+	Brush.aliases	=3D ['xml', 'xhtml', 'xslt', 'html'];=0A=
+=0A=
+	SyntaxHighlighter.brushes.Xml =3D Brush;=0A=
+=0A=
+	// CommonJS=0A=
+	typeof(exports) !=3D 'undefined' ? exports.Brush =3D Brush : null;=0A=
+})();=0A=
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://cxf.apache.org/resources/highlighter/scripts/shBrushPlain.js
+
+/**=0A=
+ * SyntaxHighlighter=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter=0A=
+ *=0A=
+ * SyntaxHighlighter is donationware. If you are using it, please donate.=0A=
+ * http://alexgorbatchev.com/SyntaxHighlighter/donate.html=0A=
+ *=0A=
+ * @version=0A=
+ * 3.0.83 (July 02 2010)=0A=
+ * =0A=
+ * @copyright=0A=
+ * Copyright (C) 2004-2010 Alex Gorbatchev.=0A=
+ *=0A=
+ * @license=0A=
+ * Dual licensed under the MIT and GPL licenses.=0A=
+ */=0A=
+;(function()=0A=
+{=0A=
+	// CommonJS=0A=
+	typeof(require) !=3D 'undefined' ? SyntaxHighlighter =3D =
+require('shCore').SyntaxHighlighter : null;=0A=
+=0A=
+	function Brush()=0A=
+	{=0A=
+	};=0A=
+=0A=
+	Brush.prototype	=3D new SyntaxHighlighter.Highlighter();=0A=
+	Brush.aliases	=3D ['text', 'plain'];=0A=
+=0A=
+	SyntaxHighlighter.brushes.Plain =3D Brush;=0A=
+=0A=
+	// CommonJS=0A=
+	typeof(exports) !=3D 'undefined' ? exports.Brush =3D Brush : null;=0A=
+})();=0A=
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.google.com/cse/brand?form=cse-search-box&lang=en
+
+=0A=
+(function() {=0A=
+var f =3D document.getElementById('cse-search-box');=0A=
+if (!f) {=0A=
+f =3D document.getElementById('searchbox_demo');=0A=
+}=0A=
+if (f && f['q']) {=0A=
+var q =3D f['q'];=0A=
+var n =3D navigator;=0A=
+var l =3D location;=0A=
+var du =3D function(n, v) {=0A=
+var u =3D document.createElement('input');=0A=
+u.name =3D n;=0A=
+u.value =3D v;=0A=
+u.type =3D 'hidden';=0A=
+f.appendChild(u);=0A=
+return u;=0A=
+};=0A=
+var su =3D function (n, t, v, l) {=0A=
+if (!encodeURIComponent || !decodeURIComponent) {=0A=
+return;=0A=
+}=0A=
+var regexp =3D new RegExp('(?:[?&]' + n + '=3D)([^&#]*)');=0A=
+var existing =3D regexp.exec(t);=0A=
+if (existing) {=0A=
+v =3D decodeURIComponent(existing[1]);=0A=
+}=0A=
+var delimIndex =3D v.indexOf('://');=0A=
+if (delimIndex >=3D 0) {=0A=
+v =3D v.substring(delimIndex + '://'.length, v.length);=0A=
+}=0A=
+var v_sub =3D v.substring(0, l);=0A=
+while (encodeURIComponent(v_sub).length > l) {=0A=
+v_sub =3D v_sub.substring(0, v_sub.length - 1);=0A=
+}=0A=
+du(n, v_sub);=0A=
+};=0A=
+var pl =3D function(he) {=0A=
+var ti =3D 0, tsi =3D 0, tk =3D 0, pt;=0A=
+return function() {=0A=
+var ct =3D (new Date).getTime();=0A=
+if (pt) {=0A=
+var i =3D ct - pt;=0A=
+ti +=3D i;=0A=
+tsi +=3D i*i;=0A=
+}=0A=
+tk++;=0A=
+pt =3D ct;=0A=
+he.value =3D [ti, tsi, tk].join('j');=0A=
+};=0A=
+};=0A=
+var append =3D false;=0A=
+if (n.appName =3D=3D 'Microsoft Internet Explorer') {=0A=
+var s =3D f.parentNode.childNodes;=0A=
+for (var i =3D 0; i < s.length; i++) {=0A=
+        if (s[i].nodeName =3D=3D 'SCRIPT' &&=0A=
+            s[i].attributes['src'] &&=0A=
+            s[i].attributes['src'].nodeValue =3D=3D =
+unescape('http:\x2F\x2Fwww.google.com\x2Fcse\x2Fbrand?form=3Dcse-search-b=
+ox\x26lang=3Den')) {=0A=
+          append =3D true;=0A=
+          break;=0A=
+        }=0A=
+      }=0A=
+    } else {=0A=
+      append =3D true;=0A=
+    }=0A=
+    if (append) {=0A=
+      =0A=
+      var loc =3D document.location.toString(); var ref =3D =
+document.referrer;=0A=
+      su('siteurl', loc, loc, 250);=0A=
+      su('ref', loc, ref, 750);=0A=
+=0A=
+      =0A=
+      =0A=
+      if (q.addEventListener) {=0A=
+        q.addEventListener('keyup', pl(du('ss', '')), false);=0A=
+      } else if (q.attachEvent) {=0A=
+        q.attachEvent('onkeyup', pl(du('ss', '')));=0A=
+      }=0A=
+    }=0A=
+=0A=
+    =0A=
+    if (n.platform =3D=3D 'Win32') {=0A=
+      q.style.cssText =3D 'border: 1px solid #7e9db9; padding: 2px;';=0A=
+    }=0A=
+=0A=
+    =0A=
+    if (window.history.navigationMode) {=0A=
+      window.history.navigationMode =3D 'compatible';=0A=
+    }=0A=
+=0A=
+    var b =3D function() {=0A=
+      if (q.value =3D=3D '') {=0A=
+        q.style.background =3D '#FFFFFF =
+url(http:\x2F\x2Fwww.google.com\x2Fcse\x2Fintl\x2Fen\x2Fimages\x2Fgoogle_=
+custom_search_watermark.gif) left no-repeat';=0A=
+      }=0A=
+    };=0A=
+=0A=
+    var f =3D function() {=0A=
+      q.style.background =3D '#ffffff';=0A=
+    };=0A=
+=0A=
+    q.onfocus =3D f;=0A=
+    q.onblur =3D b;=0A=
+=0A=
+    =0A=
+    if (!/[&?]q=3D[^&]/.test(l.search)) {=0A=
+      b();=0A=
+    }=0A=
+  }=0A=
+})();=0A=
+
+------=_NextPart_000_0018_01CF38A0.E0B00AB0--
